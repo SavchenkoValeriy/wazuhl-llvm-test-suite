@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GZCOLOR_H
+#define GZCOLOR_H
+
 /* gzcolor.h */
 /* Private definition of color representation for GhostScript */
 
@@ -70,3 +73,6 @@ extern color_param gx_color_luminance(P1(struct gs_color_s *));
 #define lum_green_weight	59
 #define lum_blue_weight	11
 #define lum_all_weights	(lum_red_weight + lum_green_weight + lum_blue_weight)
+
+
+#endif /* GZCOLOR_H */

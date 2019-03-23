@@ -341,10 +341,10 @@ void CrossAddTag(OBJECT x)
 /*  *crs for this purpose.  The result replaces x, which is disposed.        */
 /*                                                                           */
 /*****************************************************************************/
-static OBJECT nbt[2] = { nilobj, nilobj };
-static OBJECT nft[2] = { nilobj, nilobj };
-static OBJECT ntarget = nilobj;
-static OBJECT nenclose = nilobj;
+static OBJECT z10nbt[2] = { nilobj, nilobj };
+static OBJECT z10nft[2] = { nilobj, nilobj };
+static OBJECT z10ntarget = nilobj;
+static OBJECT z10nenclose = nilobj;
 
 OBJECT CrossExpand(OBJECT x, OBJECT env, STYLE *style,
 OBJECT *crs, OBJECT *res_env)
@@ -360,7 +360,7 @@ OBJECT *crs, OBJECT *res_env)
   /* manifest and tidy the right parameter */
   Child(tag, LastDown(x));
   debug0(DOM, D, "  [ calling Manifest from CrossExpand");
-  tag = Manifest(tag, env, style, nbt, nft, &ntarget, crs, FALSE, FALSE, &nenclose, FALSE);
+  tag = Manifest(tag, env, style, z10nbt, z10nft, &z10ntarget, crs, FALSE, FALSE, &z10nenclose, FALSE);
   debug0(DOM, D, "  ] returning from Manifest");
   tag = ReplaceWithTidy(tag, TRUE);   /* && */
 
@@ -595,9 +595,9 @@ void CrossSequence(OBJECT x)
       { for( link=Down(actual(val)); link != actual(val); link=NextDown(link) )
 	{ Child(y, link);
 	  if( is_key(y) )
-	  { OBJECT nbt[2], nft[2], crs, ntarget, nenclose;
-	    nbt[COLM] = nft[COLM] = nbt[ROWM] = nft[ROWM] = nilobj;
-	    crs = ntarget = nenclose = nilobj;
+	  { OBJECT z10nbt[2], z10nft[2], crs, z10ntarget, z10nenclose;
+	    z10nbt[COLM] = z10nft[COLM] = z10nbt[ROWM] = z10nft[ROWM] = nilobj;
+	    crs = z10ntarget = z10nenclose = nilobj;
 	    New(key, CLOSURE);
 	    actual(key) = y;
 	    New(hold_key, ACAT);
@@ -607,8 +607,8 @@ void CrossSequence(OBJECT x)
 	    New(hold_env, ACAT);
 	    Link(hold_env, env);
 	    debug0(DOM, D, "  [ calling Manifest from CrossSequence");
-	    key = Manifest(key, env, &save_style(val), nbt, nft,
-	      &ntarget, &crs, FALSE, TRUE, &nenclose, FALSE);
+	    key = Manifest(key, env, &save_style(val), z10nbt, z10nft,
+	      &z10ntarget, &crs, FALSE, TRUE, &z10nenclose, FALSE);
 	    debug0(DOM, D, "  ] returning from Manifest");
 	    key = ReplaceWithTidy(key, TRUE);
 	    DeleteLink(Down(env));

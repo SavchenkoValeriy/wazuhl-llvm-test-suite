@@ -30,8 +30,6 @@ copies.  */
 #include "gxdevice.h"			/* for gx_color_index */
 #include "gzcolor.h"
 
-/* Imported from name.c */
-extern ref *name_string_ref(P2(ref *, ref *));
 
 /* ------ Object utilities ------ */
 

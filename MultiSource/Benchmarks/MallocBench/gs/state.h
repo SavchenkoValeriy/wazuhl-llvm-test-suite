@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef STATE_H
+#define STATE_H
+
 /* state.h */
 /* GhostScript graphics state definition */
 
@@ -35,3 +38,6 @@ struct int_state_s {
 };
 extern int_state istate;
 extern gs_state *igs;
+
+
+#endif /* STATE_H */

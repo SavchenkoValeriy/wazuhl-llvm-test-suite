@@ -24,6 +24,9 @@
 //
 // ************************************************************************
 
+#ifndef BLOCK_H
+#define BLOCK_H
+
 typedef struct {
    int number;
    int level;
@@ -128,3 +131,6 @@ typedef struct {
    double inc[3];
 } object;
 object *objects;
+
+
+#endif /* BLOCK_H */

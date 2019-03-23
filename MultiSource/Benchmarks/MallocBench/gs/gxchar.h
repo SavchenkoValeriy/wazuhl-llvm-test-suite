@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GXCHAR_H
+#define GXCHAR_H
+
 /* gxchar.h */
 /* Internal character definition for GhostScript library */
 /* Requires gsmatrix.h, gxfixed.h, gzdevice.h */
@@ -92,3 +95,6 @@ cached_fm_pair *	gx_lookup_fm_pair(P1(gs_state *));
 void	gx_add_cached_char(P3(struct gs_font_dir_s *, cached_char *, cached_fm_pair *));
 cached_char *	gx_lookup_cached_char(P3(gs_state *, cached_fm_pair *, int));
 int	gx_copy_cached_char(P2(gs_show_enum *, cached_char *));
+
+
+#endif /* GXCHAR_H */

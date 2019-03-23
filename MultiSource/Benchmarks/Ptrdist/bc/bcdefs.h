@@ -26,6 +26,10 @@
        
 *************************************************************************/
 
+#ifndef BCDEFS_H
+#define BCDEFS_H
+
+
 /* Include the configuration file. */
 #include "config.h"
 
@@ -150,3 +154,7 @@ typedef struct id_rec {
 	struct id_rec * left;
 	struct id_rec * right; /* Tree pointers. */
 } id_rec;
+
+
+
+#endif /* BCDEFS_H */

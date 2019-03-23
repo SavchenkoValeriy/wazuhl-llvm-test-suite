@@ -1,12 +1,6 @@
 #define global 
 #include "defs.h"
 
-typedef struct {
-  bodyptr pskip;		/* body to skip in force evaluation */
-  vector pos0;			/* point at which to evaluate field */
-  real phi0;			/* computed potential at pos0       */
-  vector acc0;			/* computed acceleration at pos0    */
-} hgstruct, *hgsptr;
 
 /*
  * WALKSUB: recursive routine to do hackwalk operation.

@@ -45,20 +45,28 @@ function(llvm_test_data target)
 endfunction()
 
 function(llvm_test_executable_no_test target)
-  add_executable(${target} ${ARGN})
-  append_target_flags(COMPILE_FLAGS ${target} ${CFLAGS})
-  append_target_flags(COMPILE_FLAGS ${target} ${CPPFLAGS})
-  append_target_flags(COMPILE_FLAGS ${target} ${CXXFLAGS})
+  set(original "${target}_original")
+  add_executable(${original} ${ARGN})
+  set_target_properties(${original} PROPERTIES
+    COTIRE_ENABLE_PRECOMPILED_HEADER FALSE)
+  set_target_properties(${original} PROPERTIES
+    COTIRE_UNITY_TARGET_NAME ${target})
+  set_target_properties(${original} PROPERTIES
+    OUTPUT_NAME ${target})
+  append_target_flags(COMPILE_FLAGS ${original} ${CFLAGS})
+  append_target_flags(COMPILE_FLAGS ${original} ${CPPFLAGS})
+  append_target_flags(COMPILE_FLAGS ${original} ${CXXFLAGS})
   # Note that we cannot use target_link_libraries() here because that one
   # only interprets inputs starting with '-' as flags.
-  append_target_flags(LINK_LIBRARIES ${target} ${LDFLAGS})
+  append_target_flags(LINK_LIBRARIES ${original} ${LDFLAGS})
   set(target_path ${CMAKE_CURRENT_BINARY_DIR}/${target})
   if(TEST_SUITE_PROFILE_USE)
-    append_target_flags(COMPILE_FLAGS ${target} -fprofile-instr-use=${target_path}.profdata)
-    append_target_flags(LINK_LIBRARIES ${target} -fprofile-instr-use=${target_path}.profdata)
+    append_target_flags(COMPILE_FLAGS ${original} -fprofile-instr-use=${target_path}.profdata)
+    append_target_flags(LINK_LIBRARIES ${original} -fprofile-instr-use=${target_path}.profdata)
   endif()
 
   set_property(GLOBAL APPEND PROPERTY TEST_SUITE_TARGETS ${target})
+  cotire(${original})
   test_suite_add_build_dependencies(${target})
 endfunction()
 

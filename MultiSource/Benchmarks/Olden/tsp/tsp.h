@@ -1,3 +1,7 @@
+#ifndef TSP_H
+#define TSP_H
+
+
 #ifdef TORONTO
 /* Toronto's hack */
 #define ALLOC(p, sz)      malloc(sz)
@@ -56,3 +60,5 @@ Tree tsp(Tree t, int sz, int nproc);
 
 
 
+
+#endif /* TSP_H */

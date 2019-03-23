@@ -1,3 +1,5 @@
+#ifndef MPGLIB_H
+#define MPGLIB_H
 
 struct buf {
         unsigned char *pnt;
@@ -47,3 +49,6 @@ int decodeMP3(struct mpstr *mp,char *inmemory,int inmemsize,
      char *outmemory,int outmemsize,int *done);
 void ExitMP3(struct mpstr *mp);
 
+
+
+#endif /* MPGLIB_H */

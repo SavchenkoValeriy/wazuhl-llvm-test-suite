@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GX_H
+#define GX_H
+
 /* gx.h */
 /* Common internal definitions for Ghostscript imaging library */
 #include "gs.h"
@@ -31,3 +34,6 @@ extern int gs_log_error(P1(int));
 #else
 #  define return_error(err) return err
 #endif
+
+
+#endif /* GX_H */

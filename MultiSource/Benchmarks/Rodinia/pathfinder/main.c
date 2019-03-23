@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void pathFinderKernel(int rows, int cols, int *data, int *result, int *src);
+void pathFinderKernel(int row, int col, int data[row][col], int result[col],
+                      int src[col]);
 void initialize(int rows, int cols, int *result, int *data);
 void printResult(int len, int *result);
 

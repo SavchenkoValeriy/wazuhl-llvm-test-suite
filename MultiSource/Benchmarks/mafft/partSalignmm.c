@@ -56,16 +56,16 @@ static void st_FinalGapCount( float *fgcp, int clus, char **seq, double *eff, in
 			
 		
 
-static int impalloclen = 0;
-static float **impmtx = NULL;
+static int sa_impalloclen = 0;
+static float **sa_impmtx = NULL;
 float part_imp_match_out_sc( int i1, int j1 )
 {
-//	fprintf( stderr, "impalloclen = %d\n", impalloclen );
-//	fprintf( stderr, "i1,j1=%d,%d -> impmtx=%f\n", i1, j1, impmtx[i1][j1] );
-	return( impmtx[i1][j1] );
+//	fprintf( stderr, "sa_impalloclen = %d\n", sa_impalloclen );
+//	fprintf( stderr, "i1,j1=%d,%d -> sa_impmtx=%f\n", i1, j1, sa_impmtx[i1][j1] );
+	return( sa_impmtx[i1][j1] );
 #if 0
 	if( i1 == l1 || j1 == l2 ) return( 0.0 );
-	return( impmtx[i1+start1][j1+start2] );
+	return( sa_impmtx[i1+start1][j1+start2] );
 #endif
 }
 static void part_imp_match_out_vead_gapmap( float *imp, int i1, int lgth2, int start2, int *gapmap2 )
@@ -74,12 +74,12 @@ static void part_imp_match_out_vead_gapmap( float *imp, int i1, int lgth2, int s
 	float *pt = imp;
 	int *gapmappt = gapmap2;
 	while( lgth2-- )
-		*pt++ += impmtx[i1][start2+*gapmappt++];
+		*pt++ += sa_impmtx[i1][start2+*gapmappt++];
 #else
 	int j;
 	for( j=0; j<lgth2; j++ )
 	{
-		imp[j] += impmtx[i1][start2+gapmap2[j]];
+		imp[j] += sa_impmtx[i1][start2+gapmap2[j]];
 	}
 #endif
 }
@@ -90,12 +90,12 @@ static void part_imp_match_out_vead_tate_gapmap( float *imp, int j1, int lgth1, 
 	float *pt = imp;
 	int *gapmappt = gapmap1;
 	while( lgth1-- )
-		*pt++ = impmtx[start1+*gapmappt++][j1];
+		*pt++ = sa_impmtx[start1+*gapmappt++][j1];
 #else
 	int i;
 	for( i=0; i<lgth1; i++ )
 	{
-		imp[i] += impmtx[start1+gapmap1[i]][j1];
+		imp[i] += sa_impmtx[start1+gapmap1[i]][j1];
 	}
 #endif
 }
@@ -107,11 +107,11 @@ void part_imp_match_init_strict( float *imp, int clus1, int clus2, int lgth1, in
 	char *pt, *pt1, *pt2;
 	LocalHom *tmpptr;
 
-	if( impalloclen <= lgth1 + 2 || impalloclen <= lgth2 + 2 )
+	if( sa_impalloclen <= lgth1 + 2 || sa_impalloclen <= lgth2 + 2 )
 	{
-		if( impmtx ) FreeFloatMtx( impmtx );
-		impalloclen = MAX( lgth1, lgth2 ) + 2;
-		impmtx = AllocateFloatMtx( impalloclen+100, impalloclen+100 );
+		if( sa_impmtx ) FreeFloatMtx( sa_impmtx );
+		sa_impalloclen = MAX( lgth1, lgth2 ) + 2;
+		sa_impmtx = AllocateFloatMtx( sa_impalloclen+100, sa_impalloclen+100 );
 	}
 
 
@@ -124,7 +124,7 @@ void part_imp_match_init_strict( float *imp, int clus1, int clus2, int lgth1, in
 #endif
 
 	for( i=0; i<lgth1; i++ ) for( j=0; j<lgth2; j++ )
-		impmtx[i][j] = 0.0;
+		sa_impmtx[i][j] = 0.0;
 	effijx = 1.0 * fastathreshold;
 	for( i=0; i<clus1; i++ )
 	{
@@ -210,10 +210,10 @@ void part_imp_match_init_strict( float *imp, int clus1, int clus2, int lgth1, in
 					if( *pt1 != '-' && *pt2 != '-' )
 					{
 // 重みを二重にかけないように注意して下さい。
-//						impmtx[k1][k2] += tmpptr->wimportance * fastathreshold;
-//						impmtx[k1][k2] += tmpptr->importance * effij;
-						impmtx[k1][k2] += tmpptr->fimportance * effij;
-//						fprintf( stderr, "k1=%d, k2=%d, impalloclen=%d\n", k1, k2, impalloclen );
+//						sa_impmtx[k1][k2] += tmpptr->wimportance * fastathreshold;
+//						sa_impmtx[k1][k2] += tmpptr->importance * effij;
+						sa_impmtx[k1][k2] += tmpptr->fimportance * effij;
+//						fprintf( stderr, "k1=%d, k2=%d, sa_impalloclen=%d\n", k1, k2, sa_impalloclen );
 //						fprintf( stderr, "mark, %d (%c) - %d (%c) \n", k1, *pt1, k2, *pt2 );
 						k1++; k2++;
 						pt1++; pt2++;
@@ -249,7 +249,7 @@ void part_imp_match_init_strict( float *imp, int clus1, int clus2, int lgth1, in
 	{
 		fprintf( stderr, "%d", k1 );
 		for( k2=0; k2<lgth2; k2++ )
-			fprintf( stderr, "%2.1f ", impmtx[k1][k2] );
+			fprintf( stderr, "%2.1f ", sa_impmtx[k1][k2] );
 		fprintf( stderr, "\n" );
 	}
 	exit( 1 );
@@ -259,28 +259,28 @@ void part_imp_match_init_strict( float *imp, int clus1, int clus2, int lgth1, in
 
 void part_imp_rna( int nseq1, int nseq2, char **seq1, char **seq2, double *eff1, double *eff2, RNApair ***grouprna1, RNApair ***grouprna2, int *gapmap1, int *gapmap2, RNApair *additionalpair )
 {
-	foldrna( nseq1, nseq2, seq1, seq2, eff1, eff2, grouprna1, grouprna2, impmtx, gapmap1, gapmap2, additionalpair );
+	foldrna( nseq1, nseq2, seq1, seq2, eff1, eff2, grouprna1, grouprna2, sa_impmtx, gapmap1, gapmap2, additionalpair );
 }
 
 
 void part_imp_match_init( float *imp, int clus1, int clus2, int lgth1, int lgth2, char **seq1, char **seq2, double *eff1, double *eff2, LocalHom ***localhom )
 {
 	int dif, i, j, k1, k2, tmpint, start1, start2, end1, end2;
-	static int impalloclen = 0;
+	static int sa_impalloclen = 0;
 	char *pt;
 	static char *nocount1 = NULL;
 	static char *nocount2 = NULL;
 
-	if( impalloclen < lgth1 || impalloclen < lgth2 )
+	if( sa_impalloclen < lgth1 || sa_impalloclen < lgth2 )
 	{
-		if( impmtx ) FreeFloatMtx( impmtx );
+		if( sa_impmtx ) FreeFloatMtx( sa_impmtx );
 		if( nocount1 ) free( nocount1 );
 		if( nocount2 ) free( nocount2 );
-		impalloclen = MAX( lgth1, lgth2 ) + 2;
-		impmtx = AllocateFloatMtx( impalloclen, impalloclen );
-		nocount1 = AllocateCharVec( impalloclen );
-		nocount2 = AllocateCharVec( impalloclen );
-		impalloclen -= 2;
+		sa_impalloclen = MAX( lgth1, lgth2 ) + 2;
+		sa_impmtx = AllocateFloatMtx( sa_impalloclen, sa_impalloclen );
+		nocount1 = AllocateCharVec( sa_impalloclen );
+		nocount2 = AllocateCharVec( sa_impalloclen );
+		sa_impalloclen -= 2;
 	}
 
 	for( i=0; i<lgth1; i++ )
@@ -300,14 +300,14 @@ void part_imp_match_init( float *imp, int clus1, int clus2, int lgth1, int lgth2
 
 #if 0
 fprintf( stderr, "nocount2 =\n" );
-for( i = 0; i<impalloclen; i++ )
+for( i = 0; i<sa_impalloclen; i++ )
 {
 	fprintf( stderr, "nocount2[%d] = %d (%c)\n", i, nocount2[i], seq2[0][i] );
 }
 #endif
 
 	for( i=0; i<lgth1; i++ ) for( j=0; j<lgth2; j++ )
-		impmtx[i][j] = 0.0;
+		sa_impmtx[i][j] = 0.0;
 	for( i=0; i<clus1; i++ )
 	{
 		fprintf( stderr, "i = %d, seq1 = %s\n", i, seq1[i] );
@@ -355,11 +355,11 @@ for( i = 0; i<impalloclen; i++ )
 			{
 #if 0
 				if( !nocount1[k1] && !nocount2[k2] )
-					impmtx[k1][k2] += localhom[i][j].wimportance * eff1[i] * eff2[j];
+					sa_impmtx[k1][k2] += localhom[i][j].wimportance * eff1[i] * eff2[j];
 				k1++; k2++;
 #else
 				if( !nocount1[k1] && !nocount2[k2] )
-					impmtx[k1][k2] += localhom[i][j]->wimportance * eff1[i] * eff2[j];
+					sa_impmtx[k1][k2] += localhom[i][j]->wimportance * eff1[i] * eff2[j];
 				k1++; k2++;
 #endif
 			}
@@ -376,7 +376,7 @@ for( i = 0; i<impalloclen; i++ )
 					while( k1 <= end1 && k2 <= end2 )
 					{
 						if( 0 <= k2 && start2 <= k2 && !nocount1[k1] && !nocount2[k2] )
-							impmtx[k1][k2] = localhom[i][j]->wimportance * eff1[i] * eff2[j];
+							sa_impmtx[k1][k2] = localhom[i][j]->wimportance * eff1[i] * eff2[j];
 						k1++; k2++;
 					}
 				}
@@ -391,7 +391,7 @@ for( i = 0; i<impalloclen; i++ )
 					while( k1 <= end1 )
 					{
 						if( k1 >= 0 && k1 >= start1 && !nocount1[k1] && !nocount2[k2] )
-							impmtx[k1][k2] = localhom[i][j]->wimportance * eff1[i] * eff2[j];
+							sa_impmtx[k1][k2] = localhom[i][j]->wimportance * eff1[i] * eff2[j];
 						k1++; k2++;
 					}
 				}
@@ -408,14 +408,14 @@ for( i = 0; i<impalloclen; i++ )
 	{
 		fprintf( stderr, "%d", k1 );
 		for( k2=0; k2<lgth2; k2++ )
-			fprintf( stderr, "%6.3f ", impmtx[k1][k2] );
+			fprintf( stderr, "%6.3f ", sa_impmtx[k1][k2] );
 		fprintf( stderr, "\n" );
 	}
 	exit( 1 );
 #endif
 }
 
-static void match_calc( float *match, float **cpmx1, float **cpmx2, int i1, int lgth2, float **floatwork, int **intwork, int initialize )
+static void match_calc_psnm( float *match, float **cpmx1, float **cpmx2, int i1, int lgth2, float **floatwork, int **intwork, int initialize )
 {
 #if FASTMATCHCALC
 	int j, l;
@@ -504,7 +504,7 @@ static void match_calc( float *match, float **cpmx1, float **cpmx2, int i1, int 
 #endif
 }
 
-static void Atracking_localhom( float *impwmpt, float *lasthorizontalw, float *lastverticalw, 
+static void SAAtracking_localhom( float *impwmpt, float *lasthorizontalw, float *lastverticalw, 
 						char **seq1, char **seq2, 
                         char **mseq1, char **mseq2, 
                         float **cpmx1, float **cpmx2, 
@@ -617,7 +617,7 @@ static void Atracking_localhom( float *impwmpt, float *lasthorizontalw, float *l
 		iin = ifi; jin = jfi;
 	}
 }
-static float Atracking( float *lasthorizontalw, float *lastverticalw, 
+static float SAAtracking( float *lasthorizontalw, float *lastverticalw, 
 						char **seq1, char **seq2, 
                         char **mseq1, char **mseq2, 
                         float **cpmx1, float **cpmx2, 
@@ -928,17 +928,17 @@ float partA__align( char **seq1, char **seq2, double *eff1, double *eff2, int ic
 	previousw = w2;
 
 
-	match_calc( initverticalw, cpmx2, cpmx1, 0, lgth1, floatwork, intwork, 1 );
+	match_calc_psnm( initverticalw, cpmx2, cpmx1, 0, lgth1, floatwork, intwork, 1 );
 	if( localhom )
 		part_imp_match_out_vead_tate_gapmap( initverticalw, gapmap2[0]+start2, lgth1, start1, gapmap1 );
 
 
-	match_calc( currentw, cpmx1, cpmx2, 0, lgth2, floatwork, intwork, 1 );
+	match_calc_psnm( currentw, cpmx1, cpmx2, 0, lgth2, floatwork, intwork, 1 );
 	if( localhom )
 		part_imp_match_out_vead_gapmap( currentw, gapmap1[0]+start1, lgth2, start2, gapmap2 );
 #if 0 // -> tbfast.c
 	if( localhom )
-		imp_match_calc( currentw, icyc, jcyc, lgth1, lgth2, seq1, seq2, eff1, eff2, localhom, 1, 0 );
+		imp_match_calc_psnm( currentw, icyc, jcyc, lgth1, lgth2, seq1, seq2, eff1, eff2, localhom, 1, 0 );
 
 #endif
 
@@ -1001,7 +1001,7 @@ for( i=0; i<lgth2; i++ )
 
 		previousw[0] = initverticalw[i-1];
 
-		match_calc( currentw, cpmx1, cpmx2, i, lgth2, floatwork, intwork, 0 );
+		match_calc_psnm( currentw, cpmx1, cpmx2, i, lgth2, floatwork, intwork, 0 );
 #if XXXXXXX
 fprintf( stderr, "\n" );
 fprintf( stderr, "i=%d\n", i );
@@ -1014,7 +1014,7 @@ fprintf( stderr, "\n" );
 #endif
 		if( localhom )
 		{
-//			fprintf( stderr, "Calling imp_match_calc (o) lgth = %d, i = %d\n", lgth1, i );
+//			fprintf( stderr, "Calling imp_match_calc_psnm (o) lgth = %d, i = %d\n", lgth1, i );
 //			imp_match_out_vead( currentw, i, lgth2 );
 			part_imp_match_out_vead_gapmap( currentw, gapmap1[i]+start1, lgth2, start2, gapmap2 );
 		}
@@ -1124,10 +1124,10 @@ fprintf( stderr, "\n" );
 	*/
 	if( localhom )
 	{
-		Atracking_localhom( impmatch, currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc, start1, end1, start2, end2, gapmap1, gapmap2 );
+		SAAtracking_localhom( impmatch, currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc, start1, end1, start2, end2, gapmap1, gapmap2 );
 	}
 	else
-		Atracking( currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
+		SAAtracking( currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
 
 //	fprintf( stderr, "### impmatch = %f\n", *impmatch );
 

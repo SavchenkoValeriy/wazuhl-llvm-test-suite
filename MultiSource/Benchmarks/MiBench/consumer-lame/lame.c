@@ -48,7 +48,7 @@
 
 
 /* Global variable definitions for lame.c */
-static Bit_stream_struc   bs;
+static Bit_stream_struc   lame_bs;
 static III_side_info_t l3_side;
 #define MFSIZE (1152+1152+ENCDELAY-MDCTDELAY)
 static short int mfbuf[2][MFSIZE];
@@ -846,7 +846,7 @@ int mf_size,char *mp3buf, int mp3buf_size)
 			scalefac, &bs);
 
 
-  frameBits = bs.totbit - sentBits;
+  frameBits = lame_bs.totbit - sentBits;
 
 
   if ( frameBits % bitsPerSlot )   /* a program failure */

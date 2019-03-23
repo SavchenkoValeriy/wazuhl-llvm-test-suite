@@ -24,11 +24,11 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-unsigned char *in; /* The infile */
+unsigned char *unc_in; /* The infile */
 unsigned char *deari;
 unsigned char *derle;
 unsigned char *debw;
-unsigned int size;
+unsigned int unc_size;
 unsigned int orgpos;
 
 static void do_debwe();
@@ -60,34 +60,34 @@ void uncompress(int argc, char *argv[])
   }
 #endif
 
-  fread(&size,sizeof(unsigned int),1,fpi); /* Read size of original file */
+  fread(&unc_size,sizeof(unsigned int),1,fpi); /* Read size of original file */
   fread(&orgpos,sizeof(unsigned int),1,fpi); /* Read the position of the original string */
   
-  in=(unsigned char *)malloc(2*size*sizeof(unsigned char));
-  deari=(unsigned char *)malloc(2*size*sizeof(unsigned char));
-  derle=(unsigned char *)malloc(2*size*sizeof(unsigned char));
-  debw=(unsigned char *)malloc(2*size*sizeof(unsigned char));
-  if (!in || !deari || !derle || !debw) {
+  unc_in=(unsigned char *)malloc(2*unc_size*sizeof(unsigned char));
+  deari=(unsigned char *)malloc(2*unc_size*sizeof(unsigned char));
+  derle=(unsigned char *)malloc(2*unc_size*sizeof(unsigned char));
+  debw=(unsigned char *)malloc(2*unc_size*sizeof(unsigned char));
+  if (!unc_in || !deari || !derle || !debw) {
     fprintf(stderr,"ERROR: Out of memory\n");
     exit(1);
   }
 
-  insize=fread(in, sizeof(unsigned char), 2*size, fpi);
+  insize=fread(unc_in, sizeof(unsigned char), 2*unc_size, fpi);
   fclose(fpi);
 
   outsize=do_deari(insize);
-  free(in); /* We are done with 'in' now... */
+  free(unc_in); /* We are done with 'in' now... */
   do_derle(outsize);
   free(deari); /* We are done with 'deari' now... */
   do_debwe();
   free(derle); /* We are done with 'derle' now... */
 
 #ifdef BENCHMARK
-  fwrite(debw, sizeof(unsigned char), size, stdout);
+  fwrite(debw, sizeof(unsigned char), unc_size, stdout);
   free(debw); /* We are done with 'debw' now... */
 #else
   /* Write the results to file */
-  fwrite(debw, sizeof(unsigned char), size, fpo); 
+  fwrite(debw, sizeof(unsigned char), unc_size, fpo); 
   free(debw); /* We are done with 'debw' now... */
   fclose(fpo);
 #endif
@@ -121,12 +121,12 @@ static void do_debwe()
   unsigned int total[256];
   unsigned int k,i,sum=0,indx;
   
-  T=(unsigned int *)malloc(size*sizeof(unsigned int));
+  T=(unsigned int *)malloc(unc_size*sizeof(unsigned int));
   
   for (k=0;k<256;k++)
     count[k]=0;
   
-  for (k=0;k<size;k++) {
+  for (k=0;k<unc_size;k++) {
     count[L[k]]++;
   }
   
@@ -136,15 +136,15 @@ static void do_debwe()
     count[i] = 0;
   }
   
-  for (i=0;i<size;i++) {
+  for (i=0;i<unc_size;i++) {
     indx = L[i];
     T[i] = count[indx]+total[indx];
     count[indx]++;
   }
 
-  debw[size-1]=L[orgpos];
-  for (k=1;k<size;k++) {
-    debw[size-k-1]=L[T[orgpos]];
+  debw[unc_size-1]=L[orgpos];
+  for (k=1;k<unc_size;k++) {
+    debw[unc_size-k-1]=L[T[orgpos]];
     orgpos=T[orgpos];
   }
   

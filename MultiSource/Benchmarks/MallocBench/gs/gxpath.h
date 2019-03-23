@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GXPATH_H
+#define GXPATH_H
+
 /* gxpath.h */
 /* Lower-level path routines for GhostScript library */
 /* Requires gxfixed.h */
@@ -69,3 +72,6 @@ extern	int	gx_path_current_point(P2(gx_path *, gs_fixed_point *)),
 #ifdef DEBUG
 extern	void	gx_path_print(P2(FILE *, gx_path *));
 #endif
+
+
+#endif /* GXPATH_H */

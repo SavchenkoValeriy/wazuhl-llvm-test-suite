@@ -3,7 +3,7 @@
 
 #define DEBUG 0
 
-static void match_calc( float *match, float **cpmx1, float **cpmx2, int i1, int lgth2, float **floatwork, int **intwork, int initialize )
+static void match_calc_sa( float *match, float **cpmx1, float **cpmx2, int i1, int lgth2, float **floatwork, int **intwork, int initialize )
 {
 	int j, k, l;
 	float scarr[26];
@@ -43,7 +43,7 @@ static void match_calc( float *match, float **cpmx1, float **cpmx2, int i1, int 
 	} 
 }
 
-static float Atracking( float *lasthorizontalw, float *lastverticalw, 
+static float SANMAtracking( float *lasthorizontalw, float *lastverticalw, 
 						char **seq1, char **seq2, 
                         char **mseq1, char **mseq2, 
                         float **cpmx1, float **cpmx2, 
@@ -274,8 +274,8 @@ float Aalign( char **seq1, char **seq2, double *eff1, double *eff2, int icyc, in
 	cpmx_calc( seq1, cpmx1, eff1, strlen( seq1[0] ), icyc );
 	cpmx_calc( seq2, cpmx2, eff2, strlen( seq2[0] ), jcyc );
 
-	match_calc( initverticalw, cpmx2, cpmx1, 0, lgth1, floatwork, intwork, 1 );
-	match_calc( currentw, cpmx1, cpmx2, 0, lgth2, floatwork, intwork, 1 );
+	match_calc_sa( initverticalw, cpmx2, cpmx1, 0, lgth1, floatwork, intwork, 1 );
+	match_calc_sa( currentw, cpmx1, cpmx2, 0, lgth2, floatwork, intwork, 1 );
 
 	if( outgap == 1 )
 	{
@@ -304,7 +304,7 @@ float Aalign( char **seq1, char **seq2, double *eff1, double *eff2, int icyc, in
 		floatncpy( previousw, currentw, lgth2+1 );
 		previousw[0] = initverticalw[i-1];
 
-		match_calc( currentw, cpmx1, cpmx2, i, lgth2, floatwork, intwork, 0 );
+		match_calc_sa( currentw, cpmx1, cpmx2, i, lgth2, floatwork, intwork, 0 );
 		currentw[0] = initverticalw[i];
 
 		mi = previousw[0] + penalty * 0.5; mpi = 0;
@@ -355,7 +355,7 @@ float Aalign( char **seq1, char **seq2, double *eff1, double *eff2, int icyc, in
 	for( i=0; i<icyc; i++ ) strcpy( mseq1[i], seq1[i] );
 	for( j=0; j<jcyc; j++ ) strcpy( mseq2[j], seq2[j] );
 	*/
-	Atracking( currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
+	SANMAtracking( currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
 
 	resultlen = strlen( mseq1[0] );
 	if( alloclen < resultlen || resultlen > N )

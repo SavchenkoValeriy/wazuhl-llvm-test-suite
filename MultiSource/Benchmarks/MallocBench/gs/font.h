@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef FONT_H
+#define FONT_H
+
 /* font.h */
 /* Internal font representation for GhostScript */
 
@@ -37,3 +40,6 @@ typedef struct font_data_s {
 
 /* The current font in the graphics state */
 #define ifont (igs->font)
+
+
+#endif /* FONT_H */

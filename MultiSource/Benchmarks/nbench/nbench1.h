@@ -23,6 +23,9 @@
 ** this code.
 */
 
+#ifndef NBENCH1_H
+#define NBENCH1_H
+
 /*
 ** DEFINES
 */
@@ -148,14 +151,6 @@ static void FlipBitRun(farulong *bitmap,
 /****************************
 ** EMULATED FLOATING POINT **
 ****************************/
-typedef struct
-{
-	u8 type;        /* Indicates, NORMAL, SUBNORMAL, etc. */
-	u8 sign;        /* Mantissa sign */
-	short exp;      /* Signed exponent...no bias */
-	u16 mantissa[INTERNAL_FPF_PRECISION];
-} InternalFPF;
-
 /*
 ** PROTOTYPES
 */
@@ -426,3 +421,6 @@ static int lusolve(double a[][LUARRAYCOLS],
 	int n, double b[LUARRAYROWS]);
 
 
+
+
+#endif /* NBENCH1_H */

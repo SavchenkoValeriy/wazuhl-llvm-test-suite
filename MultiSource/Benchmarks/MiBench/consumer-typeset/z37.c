@@ -159,7 +159,7 @@ static	OBJECT		fd_recode;		/* @FontDef @Recode entry    */
 /*                                                                           */
 /*****************************************************************************/
 
-static OBJECT load(FULL_CHAR *name, unsigned dtype, OBJECT encl, BOOLEAN compulsory)
+static OBJECT z37load(FULL_CHAR *name, unsigned dtype, OBJECT encl, BOOLEAN compulsory)
 { OBJECT res;
   res = InsertSym(name, dtype, no_fpos, DEFAULT_PREC, FALSE, FALSE, 0, encl,
     MakeWord(WORD, STR_EMPTY, no_fpos));
@@ -185,15 +185,15 @@ void FontInit(void)
     DebugRegisterUsage(MEM_FONTS, 1, INIT_FINFO_SIZE * sizeof(FONT_INFO)));
 
   /* set up FontDefSym */
-  FontDefSym	   = load(KW_FONTDEF,       LOCAL, StartSym,   FALSE);
-  fd_tag	   = load(KW_TAG,           NPAR,  FontDefSym, TRUE);
-  fd_family	   = load(KW_FAMILY,        NPAR,  FontDefSym, TRUE);
-  fd_face	   = load(KW_FACE,          NPAR,  FontDefSym, TRUE);
-  fd_name	   = load(KW_NAME,          NPAR,  FontDefSym, TRUE);
-  fd_metrics	   = load(KW_METRICS,       NPAR,  FontDefSym, TRUE);
-  fd_extra_metrics = load(KW_EXTRA_METRICS, NPAR,  FontDefSym, FALSE);
-  fd_mapping	   = load(KW_MAPPING,       NPAR,  FontDefSym, TRUE);
-  fd_recode	   = load(KW_RECODE,        NPAR,  FontDefSym, FALSE);
+  FontDefSym	   = z37load(KW_FONTDEF,       LOCAL, StartSym,   FALSE);
+  fd_tag	   = z37load(KW_TAG,           NPAR,  FontDefSym, TRUE);
+  fd_family	   = z37load(KW_FAMILY,        NPAR,  FontDefSym, TRUE);
+  fd_face	   = z37load(KW_FACE,          NPAR,  FontDefSym, TRUE);
+  fd_name	   = z37load(KW_NAME,          NPAR,  FontDefSym, TRUE);
+  fd_metrics	   = z37load(KW_METRICS,       NPAR,  FontDefSym, TRUE);
+  fd_extra_metrics = z37load(KW_EXTRA_METRICS, NPAR,  FontDefSym, FALSE);
+  fd_mapping	   = z37load(KW_MAPPING,       NPAR,  FontDefSym, TRUE);
+  fd_recode	   = z37load(KW_RECODE,        NPAR,  FontDefSym, FALSE);
 
   debug0(DFT, D, "FontInit returning.");
 }

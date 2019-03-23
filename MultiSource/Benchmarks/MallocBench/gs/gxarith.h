@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GXARITH_H
+#define GXARITH_H
+
 /* gxarith.h */
 /* Arithmetic macros for GhostScript library */
 
@@ -38,3 +41,6 @@ copies.  */
 #  define is_fzero2(f1,f2) (((_f_as_l(f1) | _f_as_l(f2)) << 1) == 0)
 #  define is_fneg(f) ((_f_as_l(f)) < 0)	/* -0 is negative, oh well */
 #endif
+
+
+#endif /* GXARITH_H */

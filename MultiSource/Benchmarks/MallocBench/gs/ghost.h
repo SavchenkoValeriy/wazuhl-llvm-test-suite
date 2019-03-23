@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GHOST_H
+#define GHOST_H
+
 /* ghost.h */
 /* Common definitions for GhostScript */
 #include "gx.h"
@@ -119,3 +122,6 @@ struct ref_s {
 	ushort type_attrs;
 	ushort size;
 };
+
+
+#endif /* GHOST_H */

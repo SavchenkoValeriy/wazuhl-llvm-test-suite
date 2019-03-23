@@ -26,6 +26,9 @@
        
 *************************************************************************/
 
+#ifndef NUMBER_H
+#define NUMBER_H
+
 
 typedef enum {PLUS, MINUS} sign;
 
@@ -58,3 +61,6 @@ typedef bc_struct * bc_num;
 #define TRUE 1
 #define FALSE 0
 #endif
+
+
+#endif /* NUMBER_H */

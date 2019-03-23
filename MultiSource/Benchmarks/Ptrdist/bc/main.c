@@ -148,7 +148,6 @@ open_new_file (void)
 	}
 #else
       /* Load the code from a precompiled version of the math libarary. */
-      extern char libmath[];
       char tmp;
       /* These MUST be in the order of first mention of each function.
 	 That is why "a" comes before "c" even though "a" is defined after

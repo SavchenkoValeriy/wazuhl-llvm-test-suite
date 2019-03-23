@@ -18,11 +18,6 @@ int init_runtime();
 int runtime();
 int usage();
 
-static const char *mybasename(const char *str) {
-  const char *base = strrchr(str, '/');
-  return base ? base+1 : str;
-}
-
 main(argc, argv)
 int argc;
 char *argv[];

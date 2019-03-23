@@ -714,7 +714,7 @@ static int III_dequantize_sample(real xr[SBLIMIT][SSLIMIT],int *scf,
     mc = 0;
     for(i=0;i<2;i++) {
       int lp = l[i];
-      struct newhuff *h = ht+gr_info->table_select[i];
+      struct newhuff *h = hufft+gr_info->table_select[i];
       for(;lp;lp--,mc--) {
         register int x,y;
         if( (!mc) ) {
@@ -886,7 +886,7 @@ static int III_dequantize_sample(real xr[SBLIMIT][SSLIMIT],int *scf,
      */
     for(i=0;i<3;i++) {
       int lp = l[i];
-      struct newhuff *h = ht+gr_info->table_select[i];
+      struct newhuff *h = hufft+gr_info->table_select[i];
 
       for(;lp;lp--,mc--) {
         int x,y;

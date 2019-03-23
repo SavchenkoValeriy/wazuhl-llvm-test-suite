@@ -1,3 +1,5 @@
+#ifndef IOTEST_H
+#define IOTEST_H
 
 /* Some archs (ARM) default to unsigned char
    and test results assumes signed */
@@ -30,3 +32,6 @@ char_t mult(char_t a, char_t b);
 void loop(void (*init)(void *) , void (*step)(void *) ,void *result);
 
  
+
+
+#endif /* IOTEST_H */

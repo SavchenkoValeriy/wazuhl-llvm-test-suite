@@ -1,5 +1,9 @@
 /* For copyright information, see olden_v1.0/COPYRIGHT */
 
+#ifndef MST_H
+#define MST_H
+
+
 #include <stdlib.h>
 #include "hash.h"
 #define MAXPROC 1
@@ -21,3 +25,6 @@ Graph MakeGraph(int numvert, int numproc);
 int dealwithargs(int argc, char *argv[]);
 
 int atoi(const char *);
+
+
+#endif /* MST_H */

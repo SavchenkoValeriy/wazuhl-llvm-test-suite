@@ -5,4 +5,11 @@
  * notice and disclaimer.                                               *
  *                                                                      *
  *EHEADER****************************************************************/
+#ifndef CRYSTAL_H
+#define CRYSTAL_H
+
 static const int  MS_XTAL_NSLIP_MAX = 12;
+
+
+
+#endif /* CRYSTAL_H */

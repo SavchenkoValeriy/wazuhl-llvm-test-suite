@@ -1,5 +1,8 @@
 /* For copyright information, see olden_v1.0/COPYRIGHT */
 
+#ifndef DEFINES_H
+#define DEFINES_H
+
 #include <math.h>
 
 typedef int BOOLEAN;
@@ -121,3 +124,6 @@ struct VEC2 V2_sum(struct VEC2 u, struct VEC2 v);
 struct VEC2 V2_sub(struct VEC2 u, struct VEC2 v);
 double V2_magn(struct VEC2 u);
 struct VEC2 V2_cross(struct VEC2 v);
+
+
+#endif /* DEFINES_H */

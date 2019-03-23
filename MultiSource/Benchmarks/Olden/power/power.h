@@ -12,6 +12,10 @@
  *
  */
 
+#ifndef POWER_H
+#define POWER_H
+
+
 void *malloc(unsigned Size);
 
 typedef struct demand {
@@ -96,3 +100,6 @@ Demand Compute_Branch(Branch b, double theta_R, double theta_I,
                        double pi_R, double pi_I);
 Demand Compute_Leaf(Leaf l, double pi_R, double pi_I);
 
+
+
+#endif /* POWER_H */

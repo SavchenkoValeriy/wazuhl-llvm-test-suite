@@ -117,85 +117,7 @@ static const char *mybasename(const char *str) {
   return base ? base+1 : str;
 }
 
-static LINK_DEST_TABLE ltab_new(int newsize)
-{ LINK_DEST_TABLE S;  int i;
-  /* ifdebug(DMA, D, DebugRegisterUsage(MEM_LINK_TAB, 1,
-    2*sizeof(int) + newsize * sizeof(OBJECT))); */
-  S = (LINK_DEST_TABLE)
-	  malloc(2*sizeof(int) + newsize * sizeof(OBJECT));
-  if( S == (LINK_DEST_TABLE) NULL )
-    Error(43, 1, "run out of memory enlarging link dest table", FATAL, no_fpos);
-  ltab_size(S) = newsize;
-  ltab_count(S) = 0;
-  for( i = 0;  i < newsize;  i++ )  ltab_item(S, i) = nilobj;
-  return S;
-} /* end ltab_new */
-
-static void ltab_insert(OBJECT x, LINK_DEST_TABLE *S);
-
-static LINK_DEST_TABLE ltab_rehash(LINK_DEST_TABLE S, int newsize)
-{ LINK_DEST_TABLE NewS;  int i;
-  NewS = ltab_new(newsize);
-  for( i = 1;  i <= ltab_size(S);  i++ )
-  { if( ltab_item(S, i) != nilobj )
-      ltab_insert(ltab_item(S, i), &NewS);
-  }
-  free(S);
-  return NewS;
-} /* end ltab_rehash */
-
-static void ltab_insert(OBJECT x, LINK_DEST_TABLE *S)
-{ int pos;  OBJECT z, link, y;
-  if( ltab_count(*S) == ltab_size(*S) - 1 )	/* one less since 0 unused */
-    *S = ltab_rehash(*S, 2*ltab_size(*S));
-  hash(pos, string(x), *S);
-  if( ltab_item(*S, pos) == nilobj )  New(ltab_item(*S, pos), ACAT);
-  z = ltab_item(*S, pos);
-  for( link = Down(z);  link != z;  link = NextDown(link) )
-  { Child(y, link);
-    if( StringEqual(string(x), string(y)) )
-    { Error(43, 2, "link name %s used twice (first at%s)",
-	WARN, &fpos(x), string(x), EchoFilePos(&fpos(y)));
-    }
-  }
-  Link(ltab_item(*S, pos), x);
-} /* end ltab_insert */
-
-static OBJECT ltab_retrieve(FULL_CHAR *str, LINK_DEST_TABLE S)
-{ OBJECT x, link, y;  int pos;
-  hash(pos, str, S);
-  x = ltab_item(S, pos);
-  if( x == nilobj )  return nilobj;
-  for( link = Down(x);  link != x;  link = NextDown(link) )
-  { Child(y, link);
-    if( StringEqual(str, string(y)) )  return y;
-  }
-  return nilobj;
-} /* end ltab_retrieve */
-
-#if DEBUG_ON
-static void ltab_debug(LINK_DEST_TABLE S, FILE *fp)
-{ int i;  OBJECT x, link, y;
-  fprintf(fp, "  table size: %d;  current number of keys: %d\n",
-    ltab_size(S), ltab_count(S));
-  for( i = 0;  i < ltab_size(S);  i++ )
-  { x = ltab_item(S, i);
-    fprintf(fp, "ltab_item(S, %d) =", i);
-    if( x == nilobj )
-      fprintf(fp, " <nilobj>");
-    else if( type(x) != ACAT )
-      fprintf(fp, " not ACAT!");
-    else for( link = Down(x);  link != x;  link = NextDown(link) )
-    { Child(y, link);
-      fprintf(fp, " %s",
-	is_word(type(y)) ? string(y) : AsciiToFull("not-WORD!"));
-    }
-    fprintf(fp, "\n");
-  }
-} /* end ltab_debug */
-#endif
-
-static	LINK_DEST_TABLE	link_dest_tab;		/* the link dest names       */
+static	LINK_DEST_TABLE	z49link_dest_tab;		/* the link dest names       */
 static	OBJECT		link_source_list;	/* the link source names     */
 
 /*****************************************************************************/
@@ -236,7 +158,7 @@ static void PS_PrintInitialize(FILE *fp)
   New(needs, ACAT);
   New(supplied, ACAT);
   debug0(DPO, DD, "PS_PrintInitialize returning.");
-  link_dest_tab = ltab_new(200);
+  z49link_dest_tab = ltab_new(200);
   New(link_source_list, ACAT);
 } /* end PS_PrintInitialize */
 
@@ -1329,12 +1251,12 @@ static void PS_LinkDest(OBJECT name, FULL_LENGTH llx, FULL_LENGTH lly,
   debug5(DPO, D, "PS_LinkDest(%s, %d, %d, %d, %d)", EchoObject(name),
     llx, lly, urx, ury);
 
-  prev = ltab_retrieve(string(name), link_dest_tab);
+  prev = ltab_retrieve(string(name), z49link_dest_tab);
   if( prev == nilobj )
   {
     /* not used previously, so print it and remember it */
     fprintf(out_fp, "\n[ /Dest /%s /DEST pdfmark\n", "IGNORED");
-    ltab_insert(name, &link_dest_tab);
+    ltab_insert(name, &z49link_dest_tab);
   }
   else
   {
@@ -1362,7 +1284,7 @@ static void PS_LinkCheck()
   for( link=Down(link_source_list); link!=link_source_list; link=NextDown(link) )
   { Child(y, link);
     assert( is_word(type(y)), " PS_LinkCheck: !is_word(type(y))!");
-    if( ltab_retrieve(string(y), link_dest_tab) == nilobj )
+    if( ltab_retrieve(string(y), z49link_dest_tab) == nilobj )
       Error(49, 14, "link name %s has no destination point", WARN, &fpos(y),
 	string(y));
   }

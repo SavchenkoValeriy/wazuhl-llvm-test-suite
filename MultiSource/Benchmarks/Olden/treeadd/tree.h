@@ -3,6 +3,10 @@
 /* tree.h
  */
 
+#ifndef TREE_H
+#define TREE_H
+
+
 #ifdef TORONTO
 #include <stdio.h>
 #define chatting printf
@@ -17,6 +21,9 @@ typedef struct tree {
 extern tree_t *TreeAlloc (int level, int lo, int hi);
 int TreeAdd (tree_t *t);
 
+
+
+#endif /* TREE_H */
 
 
 

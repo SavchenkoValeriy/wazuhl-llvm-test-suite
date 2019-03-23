@@ -7,7 +7,7 @@
 
 
 #if 1
-static void match_calc( float *match, char **s1, char **s2, int i1, int lgth2 ) 
+static void match_calc_gengal( float *match, char **s1, char **s2, int i1, int lgth2 ) 
 {
 	char *seq2 = s2[0];
 	int *intptr = amino_dis[(int)s1[0][i1]];
@@ -16,7 +16,7 @@ static void match_calc( float *match, char **s1, char **s2, int i1, int lgth2 )
 		*match++ = intptr[(int)*seq2++];
 }
 #else
-static void match_calc( float *match, char **s1, char **s2, int i1, int lgth2 )
+static void match_calc_gengal( float *match, char **s1, char **s2, int i1, int lgth2 )
 {
 	int j;
 
@@ -264,10 +264,10 @@ float genG__align11( char **seq1, char **seq2, int alloclen )
 	previousw = w2;
 
 
-	match_calc( initverticalw, seq2, seq1, 0, lgth1 );
+	match_calc_gengal( initverticalw, seq2, seq1, 0, lgth1 );
 
 
-	match_calc( currentw, seq1, seq2, 0, lgth2 );
+	match_calc_gengal( currentw, seq1, seq2, 0, lgth2 );
 
 	if( outgap == 1 )
 	{
@@ -317,7 +317,7 @@ fprintf( stderr, "\n" );
 
 		previousw[0] = initverticalw[i-1];
 
-		match_calc( currentw, seq1, seq2, i, lgth2 );
+		match_calc_gengal( currentw, seq1, seq2, i, lgth2 );
 #if XXXXXXX
 fprintf( stderr, "\n" );
 fprintf( stderr, "i=%d\n", i );

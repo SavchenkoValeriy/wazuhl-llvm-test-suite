@@ -25,6 +25,10 @@ copies.  */
 /* Forward references */
 void debug_print_string(P2(byte *, ushort));
 
+uint dict_length(P1(ref *dict));
+uint dict_maxlength(P1(ref *dict));
+uint dict_length(ref *pdref /* t_dictionary */);
+
 /* Print a ref */
 void
 debug_print_ref(ref *pref)

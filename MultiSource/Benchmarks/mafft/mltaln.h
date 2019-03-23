@@ -1,3 +1,7 @@
+#ifndef MLTALN_H
+#define MLTALN_H
+
+
 #define USE_XCED 0
 
 #if USE_XCED
@@ -269,3 +273,6 @@ typedef struct _RNApair
 #include "dp.h"
 #include "functions.h"
 
+
+
+#endif /* MLTALN_H */

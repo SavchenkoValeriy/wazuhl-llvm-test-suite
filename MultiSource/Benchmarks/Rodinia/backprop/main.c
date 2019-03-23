@@ -3,12 +3,6 @@
 #include <limits.h> // INT_MAX
 #include <stdio.h>  // printf
 #include <stdlib.h> // malloc, free
-float bpnn_train_kernel(int in, int hid, int out, float *input_units,
-                        float *hidden_units, float *output_units,
-                        float *hidden_delta, float *output_delta, float *target,
-                        float *input_weights, float *hidden_weights,
-                        float *input_prev_weights, float *hidden_prev_weights,
-                        int iterations);
 
 void bpnn_dump(int in, int hid, int out, float *input_weights,
                float *hidden_weights, float error);

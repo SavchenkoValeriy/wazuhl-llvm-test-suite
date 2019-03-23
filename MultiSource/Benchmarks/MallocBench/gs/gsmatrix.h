@@ -26,6 +26,10 @@ copies.  */
 /* Structure for a transformation matrix. */
 /* This is a machine-dependent hack to avoid importing */
 /* the full definition of a GhostScript type-tagged reference. */
+
+#ifndef GSMATRIX_H
+#define GSMATRIX_H
+
 #define _matrix_body\
 	float xx; long _xx /*skip*/;\
 	float xy; long _xy /*skip*/;\
@@ -62,3 +66,6 @@ int	gs_point_transform(P4(floatp, floatp, gs_matrix *, gs_point *)),
 	gs_distance_transform(P4(floatp, floatp, gs_matrix *, gs_point *)),
 	gs_distance_transform_inverse(P4(floatp, floatp, gs_matrix *, gs_point *)),
 	gs_bbox_transform_inverse(P3(gs_rect *, gs_matrix *, gs_rect *));
+
+
+#endif /* GSMATRIX_H */

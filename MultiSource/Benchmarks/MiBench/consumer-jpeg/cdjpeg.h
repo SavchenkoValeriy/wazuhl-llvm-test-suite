@@ -1,3 +1,6 @@
+#ifndef CDJPEG_H
+#define CDJPEG_H
+
 /*
  * cdjpeg.h
  *
@@ -177,3 +180,6 @@ EXTERN(FILE *) write_stdout JPP((void));
 #define EXIT_WARNING  2
 #endif
 #endif
+
+
+#endif /* CDJPEG_H */

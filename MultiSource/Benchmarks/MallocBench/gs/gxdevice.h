@@ -21,6 +21,9 @@ copies.  */
 /* Device description structure for GhostScript library */
 /* Requires gsmatrix.h */
 
+#ifndef GXDEVICE_H
+#define GXDEVICE_H
+
 /* Define the structure for bitmaps (opaquely). */
 typedef struct gx_bitmap_s gx_bitmap;
 
@@ -139,3 +142,6 @@ dev_proc_tile_rectangle(gx_default_tile_rectangle);
 dev_proc_draw_line(gx_default_draw_line);
 dev_proc_fill_trapezoid(gx_default_fill_trapezoid);
 dev_proc_tile_trapezoid(gx_default_tile_trapezoid);
+
+
+#endif /* GXDEVICE_H */

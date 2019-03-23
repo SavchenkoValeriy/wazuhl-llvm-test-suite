@@ -10,27 +10,27 @@
 
 
 
-static float **impmtx = NULL;
-static int impalloclen = 0;
+static float **qanm_impmtx = NULL;
+static int qanm_impalloclen = 0;
 #if 1 // tditeration to naiveQscore_imp de tsukawareru.
 float imp_match_out_scQ( int i1, int j1 )
 {
-//	fprintf( stderr, "imp+match = %f\n", impmtx[i1][j1] * fastathreshold );
-//	fprintf( stderr, "val = %f\n", impmtx[i1][j1] );
-	return( impmtx[i1][j1] );
+//	fprintf( stderr, "imp+match = %f\n", qanm_impmtx[i1][j1] * fastathreshold );
+//	fprintf( stderr, "val = %f\n", qanm_impmtx[i1][j1] );
+	return( qanm_impmtx[i1][j1] );
 }
 #endif
 
 static void imp_match_out_veadQ_gapmap( float *imp, int i1, int lgth2, int *gapmap2 )
 {
 #if FASTMATCHCALC
-	float *pt = impmtx[i1];
+	float *pt = qanm_impmtx[i1];
 	int *gapmappt = gapmap2;
 	while( lgth2-- )
 		*imp++ += pt[*gapmappt++];
 #else
 	int j;
-	float *pt = impmtx[i1];
+	float *pt = qanm_impmtx[i1];
 	for( j=0; j<lgth2; j++ )
 		*imp++ += pt[gapmap2[j]];
 #endif
@@ -42,11 +42,11 @@ static void imp_match_out_vead_tateQ_gapmap( float *imp, int j1, int lgth1, int 
 #if FASTMATCHCALC
 	int *gapmappt = gapmap1;
 	while( lgth1-- )
-		*imp++ += impmtx[*gapmappt++][j1];
+		*imp++ += qanm_impmtx[*gapmappt++][j1];
 #else
 	int i;
 	for( i=0; i<lgth1; i++ )
-		*imp++ += impmtx[gapmap1[i]][j1];
+		*imp++ += qanm_impmtx[gapmap1[i]][j1];
 #endif
 }
 
@@ -54,12 +54,12 @@ static void imp_match_out_vead_tateQ_gapmap( float *imp, int j1, int lgth1, int 
 static void imp_match_out_veadQ( float *imp, int i1, int lgth2 )
 {
 #if FASTMATCHCALC 
-	float *pt = impmtx[i1];
+	float *pt = qanm_impmtx[i1];
 	while( lgth2-- )
 		*imp++ += *pt++;
 #else
 	int j;
-	float *pt = impmtx[i1];
+	float *pt = qanm_impmtx[i1];
 	for( j=0; j<lgth2; j++ )
 		*imp++ += pt[j];
 #endif
@@ -68,12 +68,12 @@ static void imp_match_out_vead_tateQ( float *imp, int j1, int lgth1 )
 {
 	int i;
 	for( i=0; i<lgth1; i++ )
-		*imp++ += impmtx[i][j1];
+		*imp++ += qanm_impmtx[i][j1];
 }
 
 void imp_rnaQ( int nseq1, int nseq2, char **seq1, char **seq2, double *eff1, double *eff2, RNApair ***grouprna1, RNApair ***grouprna2, int *gapmap1, int *gapmap2, RNApair *additionalpair )
 {
-	foldrna( nseq1, nseq2, seq1, seq2, eff1, eff2, grouprna1, grouprna2, impmtx, gapmap1, gapmap2, additionalpair );
+	foldrna( nseq1, nseq2, seq1, seq2, eff1, eff2, grouprna1, grouprna2, qanm_impmtx, gapmap1, gapmap2, additionalpair );
 }
 
 #if 1 // tbfast.c kara yobareru.
@@ -87,15 +87,15 @@ void imp_match_init_strictQ( float *imp, int clus1, int clus2, int lgth1, int lg
 	static char *nocount2 = NULL;
 	LocalHom *tmpptr;
 
-	if( impalloclen < lgth1 + 2 || impalloclen < lgth2 + 2 )
+	if( qanm_impalloclen < lgth1 + 2 || qanm_impalloclen < lgth2 + 2 )
 	{
-		if( impmtx ) FreeFloatMtx( impmtx );
+		if( qanm_impmtx ) FreeFloatMtx( qanm_impmtx );
 		if( nocount1 ) free( nocount1 );
 		if( nocount2 ) free( nocount2 );
-		impalloclen = MAX( lgth1, lgth2 ) + 2;
-		impmtx = AllocateFloatMtx( impalloclen, impalloclen );
-		nocount1 = AllocateCharVec( impalloclen );
-		nocount2 = AllocateCharVec( impalloclen );
+		qanm_impalloclen = MAX( lgth1, lgth2 ) + 2;
+		qanm_impmtx = AllocateFloatMtx( qanm_impalloclen, qanm_impalloclen );
+		nocount1 = AllocateCharVec( qanm_impalloclen );
+		nocount2 = AllocateCharVec( qanm_impalloclen );
 	}
 
 	for( i=0; i<lgth1; i++ )
@@ -115,7 +115,7 @@ void imp_match_init_strictQ( float *imp, int clus1, int clus2, int lgth1, int lg
 
 #if 0
 fprintf( stderr, "nocount2 =\n" );
-for( i = 0; i<impalloclen; i++ )
+for( i = 0; i<qanm_impalloclen; i++ )
 {
 	fprintf( stderr, "nocount2[%d] = %d (%c)\n", i, nocount2[i], seq2[0][i] );
 }
@@ -132,7 +132,7 @@ for( i = 0; i<impalloclen; i++ )
 #endif
 
 	for( i=0; i<lgth1; i++ ) for( j=0; j<lgth2; j++ )
-		impmtx[i][j] = 0.0;
+		qanm_impmtx[i][j] = 0.0;
 	effijx =  fastathreshold;
 	for( i=0; i<clus1; i++ )
 	{
@@ -220,10 +220,10 @@ for( i = 0; i<impalloclen; i++ )
 					if( *pt1 != '-' && *pt2 != '-' )
 					{
 // 重みを二重にかけないように注意して下さい。
-//						impmtx[k1][k2] += tmpptr->wimportance * fastathreshold;
-//						impmtx[k1][k2] += tmpptr->importance * effij;
-						impmtx[k1][k2] += tmpptr->fimportance * effij;
-//						fprintf( stderr, "#### impmtx[k1][k2] = %f, tmpptr->fimportance=%f, effij=%f\n", impmtx[k1][k2], tmpptr->fimportance, effij );
+//						qanm_impmtx[k1][k2] += tmpptr->wimportance * fastathreshold;
+//						qanm_impmtx[k1][k2] += tmpptr->importance * effij;
+						qanm_impmtx[k1][k2] += tmpptr->fimportance * effij;
+//						fprintf( stderr, "#### qanm_impmtx[k1][k2] = %f, tmpptr->fimportance=%f, effij=%f\n", qanm_impmtx[k1][k2], tmpptr->fimportance, effij );
 //						fprintf( stderr, "mark, %d (%c) - %d (%c) \n", k1, *pt1, k2, *pt2 );
 //						fprintf( stderr, "%d (%c) - %d (%c)  - %f\n", k1, *pt1, k2, *pt2, tmpptr->fimportance * effij );
 						k1++; k2++;
@@ -253,7 +253,7 @@ for( i = 0; i<impalloclen; i++ )
 					fprintf( stderr, "k1,k2=%d,%d - ", k1, k2 );
 					if( !nocount1[k1] && !nocount2[k2] )
 					{
-						impmtx[k1][k2] += tmpptr->wimportance * eff1[i] * eff2[j]  * fastathreshold;
+						qanm_impmtx[k1][k2] += tmpptr->wimportance * eff1[i] * eff2[j]  * fastathreshold;
 						fprintf( stderr, "marked\n" );
 					}
 					else
@@ -279,7 +279,7 @@ for( i = 0; i<impalloclen; i++ )
 		{
 			fprintf( stderr, "%d ", k1 );
 			for( k2=0; k2<3; k2++ )
-				fprintf( stderr, "%2.1f ", impmtx[k1][k2] );
+				fprintf( stderr, "%2.1f ", qanm_impmtx[k1][k2] );
 			fprintf( stderr, "\n" );
 		}
 		exit( 1 );
@@ -294,7 +294,7 @@ static void clearvec( float *match, int lgth )
 	while( lgth-- ) *match++ = 0.0;
 }
 
-static void match_calc( float *match, float **cpmx1, float **cpmx2, int i1, int lgth2, float **floatwork, int **intwork, int initialize )
+static void match_calc_qnm( float *match, float **cpmx1, float **cpmx2, int i1, int lgth2, float **floatwork, int **intwork, int initialize )
 {
 #if FASTMATCHCALC
 	int j, l;
@@ -383,7 +383,7 @@ static void match_calc( float *match, float **cpmx1, float **cpmx2, int i1, int 
 #endif
 }
 
-static void Atracking_localhom_gapmap( float *impwmpt, float *lasthorizontalw, float *lastverticalw, 
+static void QANMAtracking_localhom_gapmap( float *impwmpt, float *lasthorizontalw, float *lastverticalw, 
 						char **seq1, char **seq2, 
                         char **mseq1, char **mseq2, 
                         float **cpmx1, float **cpmx2, 
@@ -497,7 +497,7 @@ static void Atracking_localhom_gapmap( float *impwmpt, float *lasthorizontalw, f
 }
 
 #if 0
-static void Atracking_localhom_gapmap_bk( float *impwmpt, float *lasthorizontalw, float *lastverticalw, 
+static void QANMAtracking_localhom_gapmap_bk( float *impwmpt, float *lasthorizontalw, float *lastverticalw, 
 						char **seq1, char **seq2, 
                         char **mseq1, char **mseq2, 
                         float **cpmx1, float **cpmx2, 
@@ -616,7 +616,7 @@ static void Atracking_localhom_gapmap_bk( float *impwmpt, float *lasthorizontalw
 
 #endif
 
-static void Atracking_localhom( float *impwmpt, float *lasthorizontalw, float *lastverticalw, 
+static void QANMAtracking_localhom( float *impwmpt, float *lasthorizontalw, float *lastverticalw, 
 						char **seq1, char **seq2, 
                         char **mseq1, char **mseq2, 
                         float **cpmx1, float **cpmx2, 
@@ -730,7 +730,7 @@ static void Atracking_localhom( float *impwmpt, float *lasthorizontalw, float *l
 }
 
 
-static float Atracking( float *lasthorizontalw, float *lastverticalw, 
+static float QANMAtracking( float *lasthorizontalw, float *lastverticalw, 
 						char **seq1, char **seq2, 
                         char **mseq1, char **mseq2, 
                         float **cpmx1, float **cpmx2, 
@@ -1168,14 +1168,14 @@ float Q__align( char **seq1, char **seq2, double *eff1, double *eff2, int icyc, 
 	previousw = w2;
 
 	if( RNAscoremtx != 'r' )
-		match_calc( initverticalw, cpmx2, cpmx1, 0, lgth1, floatwork, intwork, 1 );
+		match_calc_qnm( initverticalw, cpmx2, cpmx1, 0, lgth1, floatwork, intwork, 1 );
 	else
 		clearvec( initverticalw, lgth1 );
 	if( localhom )
 		imp_match_out_vead_tateQ( initverticalw, 0, lgth1 ); // 060306
 
 	if( RNAscoremtx != 'r' )
-		match_calc( currentw, cpmx1, cpmx2, 0, lgth2, floatwork, intwork, 1 );
+		match_calc_qnm( currentw, cpmx1, cpmx2, 0, lgth2, floatwork, intwork, 1 );
 	else
 		clearvec( currentw, lgth2 );
 	if( localhom )
@@ -1184,7 +1184,7 @@ float Q__align( char **seq1, char **seq2, double *eff1, double *eff2, int icyc, 
 
 #if 0 // -> tbfast.c
 	if( localhom )
-		imp_match_calc( currentw, icyc, jcyc, lgth1, lgth2, seq1, seq2, eff1, eff2, localhom, 1, 0 );
+		imp_match_calc_qnm( currentw, icyc, jcyc, lgth1, lgth2, seq1, seq2, eff1, eff2, localhom, 1, 0 );
 
 #endif
 
@@ -1289,7 +1289,7 @@ for( i=0; i<lgth2; i++ )
 		previousw[0] = initverticalw[i-1];
 
 		if( RNAscoremtx != 'r' )
-			match_calc( currentw, cpmx1, cpmx2, i, lgth2, floatwork, intwork, 0 );
+			match_calc_qnm( currentw, cpmx1, cpmx2, i, lgth2, floatwork, intwork, 0 );
 		else
 			clearvec( currentw, lgth2 );
 #if XXXXXXX
@@ -1304,7 +1304,7 @@ fprintf( stderr, "\n" );
 #endif
 		if( localhom )
 		{
-//			fprintf( stderr, "Calling imp_match_calc (o) lgth = %d, i = %d\n", lgth1, i );
+//			fprintf( stderr, "Calling imp_match_calc_qnm (o) lgth = %d, i = %d\n", lgth1, i );
 #if  0
 			imp_match_out_veadQ( currentw, i, lgth2 );
 #else
@@ -1480,10 +1480,10 @@ fprintf( stderr, "\n" );
 	*/
 	if( localhom )
 	{
-		Atracking_localhom( impmatch, currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
+		QANMAtracking_localhom( impmatch, currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
 	}
 	else
-		Atracking( currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
+		QANMAtracking( currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
 
 //	fprintf( stderr, "### impmatch = %f\n", *impmatch );
 
@@ -1834,14 +1834,14 @@ float Q__align_gapmap( char **seq1, char **seq2, double *eff1, double *eff2, int
 	previousw = w2;
 
 	if( RNAscoremtx != 'r' )
-		match_calc( initverticalw, cpmx2, cpmx1, 0, lgth1, floatwork, intwork, 1 );
+		match_calc_qnm( initverticalw, cpmx2, cpmx1, 0, lgth1, floatwork, intwork, 1 );
 	else
 		clearvec( initverticalw, lgth1 );
 	if( localhom )
 		imp_match_out_vead_tateQ_gapmap( initverticalw, gapmap2[0], lgth1, gapmap1 ); // 060306
 
 	if( RNAscoremtx != 'r' )
-		match_calc( currentw, cpmx1, cpmx2, 0, lgth2, floatwork, intwork, 1 );
+		match_calc_qnm( currentw, cpmx1, cpmx2, 0, lgth2, floatwork, intwork, 1 );
 	else
 		clearvec( currentw, lgth2 );
 	if( localhom )
@@ -1851,7 +1851,7 @@ float Q__align_gapmap( char **seq1, char **seq2, double *eff1, double *eff2, int
 
 #if 0 // -> tbfast.c
 	if( localhom )
-		imp_match_calc( currentw, icyc, jcyc, lgth1, lgth2, seq1, seq2, eff1, eff2, localhom, 1, 0 );
+		imp_match_calc_qnm( currentw, icyc, jcyc, lgth1, lgth2, seq1, seq2, eff1, eff2, localhom, 1, 0 );
 
 #endif
 
@@ -1956,7 +1956,7 @@ for( i=0; i<lgth2; i++ )
 		previousw[0] = initverticalw[i-1];
 
 		if( RNAscoremtx != 'r' )
-			match_calc( currentw, cpmx1, cpmx2, i, lgth2, floatwork, intwork, 0 );
+			match_calc_qnm( currentw, cpmx1, cpmx2, i, lgth2, floatwork, intwork, 0 );
 		else
 			clearvec( currentw, lgth2 );
 #if XXXXXXX
@@ -1971,7 +1971,7 @@ fprintf( stderr, "\n" );
 #endif
 		if( localhom )
 		{
-//			fprintf( stderr, "Calling imp_match_calc (o) lgth = %d, i = %d\n", lgth1, i );
+//			fprintf( stderr, "Calling imp_match_calc_qnm (o) lgth = %d, i = %d\n", lgth1, i );
 #if  0
 			imp_match_out_veadQ( currentw, i, lgth2 );
 #else
@@ -2147,10 +2147,10 @@ fprintf( stderr, "\n" );
 	*/
 	if( localhom )
 	{
-		Atracking_localhom_gapmap( impmatch, currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc, gapmap1, gapmap2 );
+		QANMAtracking_localhom_gapmap( impmatch, currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc, gapmap1, gapmap2 );
 	}
 	else
-		Atracking( currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
+		QANMAtracking( currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
 
 //	fprintf( stderr, "### impmatch = %f\n", *impmatch );
 

@@ -188,7 +188,7 @@ typedef struct
   UInt64 processed;
 } CSeqSizeOutStream;
 
-static size_t MyWrite(void *pp, const void *data, size_t size)
+static size_t MyXzWrite(void *pp, const void *data, size_t size)
 {
   CSeqSizeOutStream *p = (CSeqSizeOutStream *)pp;
   size = p->realStream->Write(p->realStream, data, size);
@@ -422,7 +422,7 @@ static SRes Xz_Compress(CXzStream *xz,
       f->props[0] = Lzma2Enc_WriteProperties(lzmaf->lzma2);
     }
 
-    seqSizeOutStream.p.Write = MyWrite;
+    seqSizeOutStream.p.Write = MyXzWrite;
     seqSizeOutStream.realStream = outStream;
     seqSizeOutStream.processed = 0;
     

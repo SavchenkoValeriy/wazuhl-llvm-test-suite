@@ -1,3 +1,6 @@
+#ifndef ESPRESSO_H
+#define ESPRESSO_H
+
 /*
  *  espresso.h -- header file for Espresso-mv
  */
@@ -767,3 +770,6 @@ extern struct cdata_struct cdata, temp_cdata_save;
 /* verify.c */	extern bool check_consistency();
 /* verify.c */	extern bool verify();
 /* hack.c */    extern int disassemble_fsm();
+
+
+#endif /* ESPRESSO_H */

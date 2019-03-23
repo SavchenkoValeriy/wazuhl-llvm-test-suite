@@ -29,6 +29,9 @@ copies.  */
 /* wherever error code definitions are needed, and use the same file */
 /* to generate the table of error names by setting INCLUDE_ERROR_NAMES. */
 
+#ifndef ERRORS_H
+#define ERRORS_H
+
 typedef struct {
 	int code;
 	char *name;
@@ -103,3 +106,6 @@ extern error_name gs_error_names[];
 };
 
 #		endif			/* ****** */
+
+
+#endif /* ERRORS_H */

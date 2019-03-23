@@ -23,6 +23,10 @@ copies.  */
 /* Name structure.  The name table is a simple chained hash table. */
 /* There is an optimization to avoid lookup for operator and other */
 /* global names. */
+
+#ifndef NAME_H
+#define NAME_H
+
 struct name_s {
 	struct name_s *next;	/* next name in chain or 0 */
 	ushort index;
@@ -56,3 +60,6 @@ extern	void	name_enter(P2(char *str, ref *pnref));
 #define name_index(pnref) ((pnref)->index)
 extern	void	name_index_ref(P2(uint index /* should be ushort*/,
 			          ref *pnref));
+
+
+#endif /* NAME_H */

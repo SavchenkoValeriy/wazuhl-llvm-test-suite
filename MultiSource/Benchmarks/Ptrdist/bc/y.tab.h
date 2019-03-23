@@ -1,3 +1,6 @@
+#ifdef YTAB_H
+#define YTAB_H
+
 typedef struct  {
 	char * s_value;
 	char	  c_value;
@@ -38,3 +41,6 @@ extern YYSTYPE yylval;
 # define Print 287
 # define Limits 288
 # define UNARY_MINUS 289
+
+
+#endif /* YTAB_H */

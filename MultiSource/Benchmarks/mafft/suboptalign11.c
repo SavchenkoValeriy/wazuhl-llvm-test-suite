@@ -27,7 +27,7 @@ static int compshuryo( Shuryoten *s1_arg, Shuryoten *s2_arg )
 	else                        return( 0 );
 }
 
-static void match_calc( float *match, char **s1, char **s2, int i1, int lgth2 )
+static void match_calc_so( float *match, char **s1, char **s2, int i1, int lgth2 )
 {
 	int j;
 
@@ -35,7 +35,7 @@ static void match_calc( float *match, char **s1, char **s2, int i1, int lgth2 )
 		match[j] = amino_dis[(int)(*s1)[i1]][(int)(*s2)[j]];
 }
 
-static float gentracking( int **used,
+static float gentracking_so( int **used,
 						char **seq1, char **seq2, 
                         char **mseq1, char **mseq2, 
                         float **cpmx1, float **cpmx2, 
@@ -318,9 +318,9 @@ float suboptalign11( char **seq1, char **seq2, int alloclen, int *off1pt, int *o
 	currentw = w1;
 	previousw = w2;
 
-	match_calc( initverticalw, seq2, seq1, 0, lgth1 );
+	match_calc_so( initverticalw, seq2, seq1, 0, lgth1 );
 
-	match_calc( currentw, seq1, seq2, 0, lgth2 );
+	match_calc_so( currentw, seq1, seq2, 0, lgth2 );
 
 
 	lasti = lgth2+1;
@@ -376,7 +376,7 @@ fprintf( stderr, "\n" );
 
 		previousw[0] = initverticalw[i-1];
 
-		match_calc( currentw, seq1, seq2, i, lgth2 );
+		match_calc_so( currentw, seq1, seq2, i, lgth2 );
 #if DEBUG2
 		fprintf( stderr, "%c   ", seq1[0][i] );
 		fprintf( stderr, "%5.0f ", currentw[0] );
@@ -639,7 +639,7 @@ fprintf( stderr, "\n" );
 	{
 		if( shuryo[k].wm < shuryo[0].wm * 0.3 ) break;
 		fprintf( stderr, "k=%d, shuryo[k].i,j,wm=%d,%d,%f go\n", k, shuryo[k].i, shuryo[k].j, shuryo[k].wm );
-		resf = gentracking( used, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijpi, ijpj, off1pt, off2pt, shuryo[k].i, shuryo[k].j );
+		resf = gentracking_so( used, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijpi, ijpj, off1pt, off2pt, shuryo[k].i, shuryo[k].j );
 		if( resf == -1.0 ) continue;
 		putlocalhom3( mseq1[0], mseq2[0], lhmpt, *off1pt, *off2pt, (int)shuryo[k].wm, strlen( mseq1[0] ) );
 #if 0

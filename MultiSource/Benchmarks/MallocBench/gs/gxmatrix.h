@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GXMATRIX_H
+#define GXMATRIX_H
+
 /* gxmatrix.h */
 /* Internal matrix routines for GhostScript library */
 #include "gsmatrix.h"
@@ -36,3 +39,6 @@ int	gs_point_transform2fixed(P4(gs_matrix_fixed *, floatp, floatp, gs_fixed_poin
 /* Macro for testing whether matrix coefficients are zero, */
 /* for shortcuts when the matrix has no skew. */
 #define is_skewed(pmat) !is_fzero2((pmat)->xy, (pmat)->yx)
+
+
+#endif /* GXMATRIX_H */

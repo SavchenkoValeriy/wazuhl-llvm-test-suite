@@ -25,6 +25,9 @@
 ** this code.
 */
 
+#ifndef EMFLOAT_H
+#define EMFLOAT_H
+
 #include <stdio.h>
 
 /* Is this a 64 bit architecture? If so, this will define LONG64 */
@@ -148,3 +151,6 @@ extern ulong StartStopwatch();
 extern ulong StopStopwatch(ulong elapsed);
 /* extern long randwc(long num); */
 extern int32 randwc(int32 num);
+
+
+#endif /* EMFLOAT_H */

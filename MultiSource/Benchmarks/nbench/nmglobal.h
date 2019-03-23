@@ -28,6 +28,9 @@
 /* is this a 64 bit architecture? If so, this will define LONG64 */
 /* #include "pointer.h" */
 
+#ifndef NMGLOBAL_H
+#define NMGLOBAL_H
+
 /*
 ** SYSTEM DEFINES
 */
@@ -199,7 +202,6 @@
 */
 #define ulong unsigned long
 #define uchar unsigned char
-#define uint unsigned int
 #define ushort unsigned short
 /*
 typedef unsigned char uchar;
@@ -505,3 +507,6 @@ typedef struct {
         double iterspersec;     /* Results */
 } LUStruct;
 
+
+
+#endif /* NMGLOBAL_H */

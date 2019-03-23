@@ -1,3 +1,5 @@
+#ifndef STOPWATCH_H
+#define STOPWATCH_H
 
 #include <time.h>
 
@@ -21,3 +23,6 @@ void Stopwatch_resume(Stopwatch Q);
 void Stopwatch_stop(Stopwatch Q);
 double Stopwatch_read(Stopwatch Q);
         
+
+
+#endif /* STOPWATCH_H */

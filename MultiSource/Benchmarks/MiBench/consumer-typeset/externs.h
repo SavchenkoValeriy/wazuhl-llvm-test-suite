@@ -26,6 +26,10 @@
 /*  MODULE:       External Declarations                                      */
 /*                                                                           */
 /*****************************************************************************/
+#ifndef EXTERNS_H
+#define EXTERNS_H
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -3533,3 +3537,6 @@ extern	struct dbs 	dbg[];
 #define	debug_init(str)	Error(1, 4, "%s - debug flags not implemented", \
 	FATAL, no_fpos, str)
 #endif
+
+
+#endif /* EXTERNS_H */

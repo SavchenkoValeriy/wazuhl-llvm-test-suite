@@ -34,6 +34,10 @@ copies.  */
 #include "gzpath.h"
 #include "gzcolor.h"
 
+void gx_device_no_output(gs_state *pgs);
+void
+gx_color_render(gs_color *pcolor, gx_device_color *pdevc, gs_state *pgs);
+
 /* Exported size of enumerator */
 int gs_show_enum_sizeof = sizeof(gs_show_enum);
 

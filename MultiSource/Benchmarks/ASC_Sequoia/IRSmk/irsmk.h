@@ -6,6 +6,10 @@
  *                                                                      *
  *EHEADER****************************************************************/
 
+#ifndef IRSMK_H
+#define IRSMK_H
+
+
 //-----------------
 //   loop bounds
 //      the following information is provided by Mike
@@ -88,3 +92,6 @@ typedef struct {
    double *ufr ;
 } RadiationData_t ;
 
+
+
+#endif /* IRSMK_H */

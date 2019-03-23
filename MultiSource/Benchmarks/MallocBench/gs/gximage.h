@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GXIMAGE_H
+#define GXIMAGE_H
+
 /* gximage.h */
 /* Internal definitions for image rendering */
 /* Requires gzcolor.h */
@@ -42,7 +45,7 @@ struct gs_image_enum_s {
 	int (*render)(irender_proc_args);
 	gs_state *pgs;
 	byte *buffer;			/* for expanding to 8 bits/sample */
-	uint buffer_size;
+	uint buffr_size;
 	uint bytes_per_row;		/* # of input bytes per row */
 					/* (per plane, if spp == 1 and */
 					/* spread > 1) */
@@ -64,3 +67,6 @@ struct gs_image_enum_s {
 #define icolor0 dev_colors[0].color1
 #define icolor1 dev_colors[255].color1
 };
+
+
+#endif /* GXIMAGE_H */

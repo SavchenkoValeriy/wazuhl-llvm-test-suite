@@ -51,6 +51,9 @@ extern gx_device *gx_device_list[];
 
 private long proc_reloc;	/* relocation of procedures */
 
+char *
+strupr(char *str);
+
 int
 gs_main(int argc, char *argv[], char *map_name,
     int (*switch_proc)(P2(char, char *)),

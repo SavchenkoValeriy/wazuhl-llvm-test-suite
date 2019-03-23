@@ -37,6 +37,8 @@ copies.  */
 /* Exported size of enumerator */
 int gs_image_enum_sizeof = sizeof(gs_image_enum);
 
+void gx_color_load(P2(gx_device_color *, gs_state *));
+
 /* Forward declarations */
 private int image_init(P10(gs_image_enum *, int, int, int, int, int,
   gs_matrix *, gs_state *, gx_color_index, gx_color_index));
@@ -160,7 +162,7 @@ image_init(register gs_image_enum *penum, int width, int height,
 	penum->ycur = mty = float2fixed(mat.ty);
 	penum->pgs = pgs;
 	penum->buffer = buffer;
-	penum->buffer_size = bsize;
+	penum->buffr_size = bsize;
 	penum->bytes_per_row =
 		(uint)((((ulong)width << log2_bps) * spp / spread + 7) >> 3);
 	if ( spp == 1 )
@@ -313,7 +315,7 @@ end:	/* End of data */
 	code = 1;
 	/* falls through */
 err:	/* Error, abort */
-	gs_free((char *)penum->buffer, penum->buffer_size, 1, "image buffer");
+	gs_free((char *)penum->buffer, penum->buffr_size, 1, "image buffer");
 	return code;
 }
 

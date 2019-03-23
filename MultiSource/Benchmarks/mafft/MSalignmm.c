@@ -10,10 +10,10 @@
 #define DPTANNI 100
 
 
-static int reccycle = 0;
+static int ms_reccycle = 0;
 
 
-static void match_calc( float *match, float **cpmx1, float **cpmx2, int i1, int lgth2, float **floatwork, int **intwork, int initialize )
+static void match_calc_msnm( float *match, float **cpmx1, float **cpmx2, int i1, int lgth2, float **floatwork, int **intwork, int initialize )
 {
 	int j, k, l;
 	float scarr[26];
@@ -89,7 +89,7 @@ static void match_calc( float *match, float **cpmx1, float **cpmx2, int i1, int 
 #endif
 }
 
-static float Atracking( 
+static float MSNMAtracking( 
 						char **seq1, char **seq2, 
                         char **mseq1, char **mseq2, 
                         int **ijp, int icyc, int jcyc,
@@ -112,7 +112,7 @@ static float Atracking(
 #endif
 
 
-//	fprintf( stderr, "in Atracking, lgth1=%d, lgth2=%d\n", lgth1, lgth2 );
+//	fprintf( stderr, "in MSNMAtracking, lgth1=%d, lgth2=%d\n", lgth1, lgth2 );
  
     for( i=0; i<lgth1+1; i++ ) 
     {
@@ -129,7 +129,7 @@ static float Atracking(
 	gaptable2 = gt2bk + lgth1+lgth2;
 	*gaptable2 = 0;
 
-//	if( lgth2 == 1 ) fprintf( stderr, "in Atracking, mseq1 = %s, mseq2 = %s\n", mseq1[0], mseq2[0] );
+//	if( lgth2 == 1 ) fprintf( stderr, "in MSNMAtracking, mseq1 = %s, mseq2 = %s\n", mseq1[0], mseq2[0] );
 
 	iin = lgth1; jin = lgth2;
 	klim = lgth1+lgth2;
@@ -175,8 +175,8 @@ static float Atracking(
 	free( gt1bk );
 	free( gt2bk );
 
-//	fprintf( stderr, "in Atracking (owari), mseq1 = %s\n", mseq1[0] );
-//	fprintf( stderr, "in Atracking (owari), mseq2 = %s\n", mseq2[0] );
+//	fprintf( stderr, "in MSNMAtracking (owari), mseq1 = %s\n", mseq1[0] );
+//	fprintf( stderr, "in MSNMAtracking (owari), mseq2 = %s\n", mseq2[0] );
 	return( 0.0 );
 }
 
@@ -271,9 +271,9 @@ static float MSalignmm_tanni( int icyc, int jcyc, double *eff1, double *eff2, ch
 	currentw = w1;
 	previousw = w2;
 
-	match_calc( initverticalw, cpmx2+jst, cpmx1+ist, 0, lgth1, floatwork, intwork, 1 );
+	match_calc_msnm( initverticalw, cpmx2+jst, cpmx1+ist, 0, lgth1, floatwork, intwork, 1 );
 
-	match_calc( currentw, cpmx1+ist, cpmx2+jst, 0, lgth2, floatwork, intwork, 1 );
+	match_calc_msnm( currentw, cpmx1+ist, cpmx2+jst, 0, lgth2, floatwork, intwork, 1 );
 
 	for( i=1; i<lgth1+1; i++ )
 	{
@@ -303,7 +303,7 @@ static float MSalignmm_tanni( int icyc, int jcyc, double *eff1, double *eff2, ch
 
 		previousw[0] = initverticalw[i-1];
 
-		match_calc( currentw, cpmx1+ist, cpmx2+jst, i, lgth2, floatwork, intwork, 0 );
+		match_calc_msnm( currentw, cpmx1+ist, cpmx2+jst, i, lgth2, floatwork, intwork, 0 );
 		currentw[0] = initverticalw[i];
 
 		mi = previousw[0] + ogcp2[1]; 
@@ -378,7 +378,7 @@ static float MSalignmm_tanni( int icyc, int jcyc, double *eff1, double *eff2, ch
 
 //	fprintf( stderr, "wm = %f\n", wm );
 
-	Atracking( seq1, seq2, mseq1, mseq2, ijp, icyc, jcyc, ist, ien, jst, jen );
+	MSNMAtracking( seq1, seq2, mseq1, mseq2, ijp, icyc, jcyc, ist, ien, jst, jen );
 
 //	for( i=0; i<icyc; i++ ) strcpy( mseq1[i], aseq1[i] );
 //	for( i=0; i<jcyc; i++ ) strcpy( mseq2[i], aseq2[i] );
@@ -410,7 +410,7 @@ static float MSalignmm_tanni( int icyc, int jcyc, double *eff1, double *eff2, ch
 
 }
 
-static float MSalignmm_rec( int icyc, int jcyc, double *eff1, double *eff2, char **seq1, char **seq2, float **cpmx1, float **cpmx2, int ist, int ien, int jst, int jen, int alloclen, char **mseq1, char **mseq2, int depth, float **gapinfo )
+static float MSNMalignmm_rec( int icyc, int jcyc, double *eff1, double *eff2, char **seq1, char **seq2, float **cpmx1, float **cpmx2, int ist, int ien, int jst, int jen, int alloclen, char **mseq1, char **mseq2, int depth, float **gapinfo )
 /* score no keisan no sai motokaraaru gap no atukai ni mondai ga aru */
 {
 //	int k;
@@ -478,7 +478,7 @@ static float MSalignmm_rec( int icyc, int jcyc, double *eff1, double *eff2, char
 	fgcp2 = gapinfo[3] + jst;
 
 	depth++;
-	reccycle++;
+	ms_reccycle++;
 
 	lgth1 = ien-ist+1;
 	lgth2 = jen-jst+1;
@@ -490,7 +490,7 @@ static float MSalignmm_rec( int icyc, int jcyc, double *eff1, double *eff2, char
 //
 
 #if STOREWM
-	fprintf( stderr, "==== MSalign (depth=%d, reccycle=%d), ist=%d, ien=%d, jst=%d, jen=%d\n", depth, reccycle, ist, ien, jst, jen );
+	fprintf( stderr, "==== MSalign (depth=%d, ms_reccycle=%d), ist=%d, ien=%d, jst=%d, jen=%d\n", depth, ms_reccycle, ist, ien, jst, jen );
 	strncpy( ttt1, seq1[0]+ist, lgth1 );
 	strncpy( ttt2, seq2[0]+jst, lgth2 );
 	ttt1[lgth1] = 0;
@@ -605,9 +605,9 @@ static float MSalignmm_rec( int icyc, int jcyc, double *eff1, double *eff2, char
 	currentw = w1;
 	previousw = w2;
 
-	match_calc( initverticalw, cpmx2+jst, cpmx1+ist, 0, lgth1, floatwork, intwork, 1 );
+	match_calc_msnm( initverticalw, cpmx2+jst, cpmx1+ist, 0, lgth1, floatwork, intwork, 1 );
 
-	match_calc( currentw, cpmx1+ist, cpmx2+jst, 0, lgth2, floatwork, intwork, 1 );
+	match_calc_msnm( currentw, cpmx1+ist, cpmx2+jst, 0, lgth2, floatwork, intwork, 1 );
 
 	for( i=1; i<lgth1+1; i++ )
 	{
@@ -656,7 +656,7 @@ static float MSalignmm_rec( int icyc, int jcyc, double *eff1, double *eff2, char
 
 		previousw[0] = initverticalw[i-1];
 
-		match_calc( currentw, cpmx1+ist, cpmx2+jst, i, lgth2, floatwork, intwork, 0 );
+		match_calc_msnm( currentw, cpmx1+ist, cpmx2+jst, i, lgth2, floatwork, intwork, 0 );
 		currentw[0] = initverticalw[i];
 
 		m[0] = ogcp1[i];
@@ -799,8 +799,8 @@ static float MSalignmm_rec( int icyc, int jcyc, double *eff1, double *eff2, char
 
 // gyakudp
 
-	match_calc( initverticalw, cpmx2+jst, cpmx1+ist, lgth2-1, lgth1, floatwork, intwork, 1 );
-	match_calc( currentw, cpmx1+ist, cpmx2+jst, lgth1-1, lgth2, floatwork, intwork, 1 );
+	match_calc_msnm( initverticalw, cpmx2+jst, cpmx1+ist, lgth2-1, lgth1, floatwork, intwork, 1 );
+	match_calc_msnm( currentw, cpmx1+ist, cpmx2+jst, lgth1-1, lgth2, floatwork, intwork, 1 );
 
 	for( i=0; i<lgth1-1; i++ )
 	{
@@ -851,8 +851,8 @@ static float MSalignmm_rec( int icyc, int jcyc, double *eff1, double *eff2, char
 		previousw = currentw;
 		currentw = wtmp;
 		previousw[lgth2-1] = initverticalw[i+1];
-//		match_calc( currentw, seq1, seq2, i, lgth2 );
-		match_calc( currentw, cpmx1+ist, cpmx2+jst, i, lgth2, floatwork, intwork, 0 );
+//		match_calc_msnm( currentw, seq1, seq2, i, lgth2 );
+		match_calc_msnm( currentw, cpmx1+ist, cpmx2+jst, i, lgth2, floatwork, intwork, 0 );
 
 		currentw[lgth2-1] = initverticalw[i];
 
@@ -1149,7 +1149,7 @@ static float MSalignmm_rec( int icyc, int jcyc, double *eff1, double *eff2, char
 #endif
 
 
-//	Atracking( currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
+//	MSNMAtracking( currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
 
 #if 0 // irukamo
 	resultlen = strlen( mseq1[0] );
@@ -1203,7 +1203,7 @@ static float MSalignmm_rec( int icyc, int jcyc, double *eff1, double *eff2, char
 		fprintf( stderr, "seq1[0] = %s\n", seq1[0] );
 		fprintf( stderr, "seq2[0] = %s\n", seq2[0] );
 #endif
-	value = MSalignmm_rec( icyc, jcyc, eff1, eff2, seq1, seq2, cpmx1, cpmx2, ist, ist+jumpi, jst, jst+jumpj, alloclen, aseq1, aseq2, depth, gapinfo );	
+	value = MSNMalignmm_rec( icyc, jcyc, eff1, eff2, seq1, seq2, cpmx1, cpmx2, ist, ist+jumpi, jst, jst+jumpj, alloclen, aseq1, aseq2, depth, gapinfo );	
 #if 0
 		fprintf( stderr, "aseq1[0] = %s\n", aseq1[0] );
 		fprintf( stderr, "aseq2[0] = %s\n", aseq2[0] );
@@ -1280,7 +1280,7 @@ static float MSalignmm_rec( int icyc, int jcyc, double *eff1, double *eff2, char
 		fprintf( stderr, "seq1[0] = %s\n", seq1[0] );
 		fprintf( stderr, "seq2[0] = %s\n", seq2[0] );
 #endif
-	value += MSalignmm_rec( icyc, jcyc, eff1, eff2, seq1, seq2, cpmx1, cpmx2, ist+imid, ien, jst+jmid, jen, alloclen, aseq1, aseq2, depth, gapinfo );	
+	value += MSNMalignmm_rec( icyc, jcyc, eff1, eff2, seq1, seq2, cpmx1, cpmx2, ist+imid, ien, jst+jmid, jen, alloclen, aseq1, aseq2, depth, gapinfo );	
 #if 0
 		fprintf( stderr, "aseq1[0] = %s\n", aseq1[0] );
 		fprintf( stderr, "aseq2[0] = %s\n", aseq2[0] );
@@ -1468,7 +1468,7 @@ float MSalignmm( char **seq1, char **seq2, double *eff1, double *eff2, int icyc,
 	fflush( stdout );
 #endif
 
-	wm = MSalignmm_rec( icyc, jcyc, eff1, eff2, seq1, seq2, cpmx1, cpmx2, 0, lgth1-1, 0, lgth2-1, alloclen, mseq1, mseq2, 0, gapinfo );
+	wm = MSNMalignmm_rec( icyc, jcyc, eff1, eff2, seq1, seq2, cpmx1, cpmx2, 0, lgth1-1, 0, lgth2-1, alloclen, mseq1, mseq2, 0, gapinfo );
 #if DEBUG
 		fprintf( stderr, " seq1[0] = %s\n", seq1[0] );
 		fprintf( stderr, " seq2[0] = %s\n", seq2[0] );

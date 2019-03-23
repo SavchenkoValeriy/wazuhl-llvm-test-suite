@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GXFONT_H
+#define GXFONT_H
+
 /* gxfont.h */
 /* Internal font definition for GhostScript library */
 /* Requires gsmatrix.h, gxdevice.h */
@@ -43,3 +46,6 @@ struct gs_font_s {
 	gs_proc_build_char build_char_proc;	/* BuildChar */
 	char *build_char_data;		/* private data for BuildChar */
 };
+
+
+#endif /* GXFONT_H */

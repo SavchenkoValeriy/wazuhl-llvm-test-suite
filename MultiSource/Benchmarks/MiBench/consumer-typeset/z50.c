@@ -42,15 +42,6 @@
 
 static FILE		*out_fp;	/* file to print PDF on              */
 
-typedef struct
-{
-  FONT_NUM	gs_font;		/* font number of this state         */
-  COLOUR_NUM	gs_colour;		/* colour number of this state       */
-  BOOLEAN	gs_cpexists;		/* TRUE if a current point exists    */
-  FULL_LENGTH	gs_currenty;		/* if cpexists, its y coordinate     */
-  short		gs_xheight2;		/* of font exists, half xheight      */
-} GRAPHICS_STATE;
-
 static GRAPHICS_STATE	gs_stack[MAX_GS];/* graphics state stack             */
 static int		gs_stack_top;	/* top of graphics state stack       */
 
@@ -262,32 +253,6 @@ static void PDF_PrintBetweenPages(FULL_LENGTH h, FULL_LENGTH v,
       finfo[fnum].kern_sizes[finfo[fnum].kern_value[j]] : 0;		\
   }									\
 } /* end KernLength */
-
-
-/*****************************************************************************/
-/*                                                                           */
-/*  static void PrintComposite(COMPOSITE *cp, BOOLEAN outline, FILE *fp)     */
-/*                                                                           */
-/*  This routine is unused in this module because it is the PostScript       */
-/*  version and no PDF version has been written so far.  JeffK 2/5/00.       */
-/*                                                                           */
-/*  Print composite character cp, assuming that the current point is         */
-/*  set to the correct origin.  If outline is true, we want to print the     */
-/*  composite character in outline.                                          */
-/*                                                                           */
-/*****************************************************************************/
-
-static void PrintComposite(COMPOSITE *cp, BOOLEAN outline, FILE *fp)
-{ debug1(DPF, D, "PrintComposite(cp, %s, fp)", bool(outline));
-  while( cp->char_code != '\0' )
-  {
-    debug4(DPF, D, "  cp = %d printing code %d (%d, %d)", (int) cp,
-      cp->char_code, cp->x_offset, cp->y_offset);
-    fprintf(fp, "%d %d (%c)%s ", cp->x_offset, cp->y_offset,
-      cp->char_code, outline ? "co" : "c");
-    cp++;
-  }
-} /* end PrintComposite */
 
 
 /*****************************************************************************/

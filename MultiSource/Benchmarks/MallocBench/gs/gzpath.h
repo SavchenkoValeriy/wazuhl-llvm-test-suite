@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GZPATH_H
+#define GZPATH_H
+
 /* gzpath.h */
 /* Private representation of paths for GhostScript library */
 /* Requires gxfixed.h */
@@ -93,3 +96,6 @@ struct gx_path_s {
  ( !ppath->position_valid ? gs_error_nocurrentpoint :\
    (ppath->position.x += dx, ppath->position.y += dy,\
     ppath->subpath_open = 0) )
+
+
+#endif /* GZPATH_H */

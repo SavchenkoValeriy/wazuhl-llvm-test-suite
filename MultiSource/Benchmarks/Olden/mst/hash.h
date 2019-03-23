@@ -2,6 +2,10 @@
 
 #include "stdio.h"
 
+#ifndef HASH_H
+#define HASH_H
+
+
 typedef struct hash_entry {
   unsigned int key;
   void *entry;
@@ -18,3 +22,6 @@ Hash MakeHash(int size, int (*map)(unsigned int));
 void *HashLookup(unsigned int key, Hash hash);
 void HashInsert(void *entry,unsigned int key, Hash hash);
 void HashDelete(unsigned int key, Hash hash);
+
+
+#endif /* HASH_H */

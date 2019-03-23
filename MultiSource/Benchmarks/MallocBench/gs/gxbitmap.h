@@ -17,6 +17,10 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GXBITMAP_H
+#define GXBITMAP_H
+
+
 /* gxbitmap.h */
 /* Definitions for stored bitmaps for Ghostscript */
 
@@ -36,3 +40,6 @@ struct gx_bitmap_s {
 	int raster;		 /* bytes per scan line */
 	int width, height;
 };
+
+
+#endif /* GXBITMAP_H */

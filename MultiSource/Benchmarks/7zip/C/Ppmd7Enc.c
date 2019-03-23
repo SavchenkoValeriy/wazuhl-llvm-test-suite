@@ -14,7 +14,7 @@ void Ppmd7z_RangeEnc_Init(CPpmd7z_RangeEnc *p)
   p->CacheSize = 1;
 }
 
-static void RangeEnc_ShiftLow(CPpmd7z_RangeEnc *p)
+static void ppmd_RangeEnc_ShiftLow(CPpmd7z_RangeEnc *p)
 {
   if ((UInt32)p->Low < (UInt32)0xFF000000 || (unsigned)(p->Low >> 32) != 0)
   {
@@ -38,7 +38,7 @@ static void RangeEnc_Encode(CPpmd7z_RangeEnc *p, UInt32 start, UInt32 size, UInt
   while (p->Range < kTopValue)
   {
     p->Range <<= 8;
-    RangeEnc_ShiftLow(p);
+    ppmd_RangeEnc_ShiftLow(p);
   }
 }
 
@@ -48,7 +48,7 @@ static void RangeEnc_EncodeBit_0(CPpmd7z_RangeEnc *p, UInt32 size0)
   while (p->Range < kTopValue)
   {
     p->Range <<= 8;
-    RangeEnc_ShiftLow(p);
+    ppmd_RangeEnc_ShiftLow(p);
   }
 }
 
@@ -60,7 +60,7 @@ static void RangeEnc_EncodeBit_1(CPpmd7z_RangeEnc *p, UInt32 size0)
   while (p->Range < kTopValue)
   {
     p->Range <<= 8;
-    RangeEnc_ShiftLow(p);
+    ppmd_RangeEnc_ShiftLow(p);
   }
 }
 
@@ -68,7 +68,7 @@ void Ppmd7z_RangeEnc_FlushData(CPpmd7z_RangeEnc *p)
 {
   unsigned i;
   for (i = 0; i < 5; i++)
-    RangeEnc_ShiftLow(p);
+    ppmd_RangeEnc_ShiftLow(p);
 }
 
 

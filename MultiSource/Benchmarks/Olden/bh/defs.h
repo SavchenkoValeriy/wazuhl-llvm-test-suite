@@ -6,6 +6,10 @@
  * 	    It's free because it's yours.
  */
 
+#ifndef DEFS_H
+#define DEFS_H
+
+
 #ifdef TORONTO
 #include <stdio.h>
 #define chatting printf
@@ -246,3 +250,6 @@ extern int nbody;
 
 
 
+
+
+#endif /* DEFS_H */

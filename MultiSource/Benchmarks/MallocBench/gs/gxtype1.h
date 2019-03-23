@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GXTYPE1_H
+#define GXTYPE1_H
+
 /* gxtype1.h */
 /* Private Adobe Type 1 font definitions for GhostScript library */
 #include "gstype1.h"
@@ -91,3 +94,6 @@ typedef enum {				/* extended commands */
 #define decrypt_next(ch, state, chvar)\
   chvar = ((ch) ^ (state >> 8)),\
   state = ((ch) + state) * crypt_c1 + crypt_c2
+
+
+#endif /* GXTYPE1_H */

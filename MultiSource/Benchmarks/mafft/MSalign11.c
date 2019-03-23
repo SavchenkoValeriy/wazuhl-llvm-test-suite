@@ -33,7 +33,7 @@ static void extendmseq( char **mseq1, char **mseq2, char **seq1, char **seq2, in
 	fprintf( stderr, "added %c to mseq2, mseq2 = %s \n", seq2[0][j], mseq2[0] );
 }
 
-static void match_calc( float *match, char **s1, char **s2, int i1, int lgth2 )
+static void match_calc_ms( float *match, char **s1, char **s2, int i1, int lgth2 )
 {
 	char tmpc = s1[0][i1];
 	char *seq2 = s2[0];
@@ -42,7 +42,7 @@ static void match_calc( float *match, char **s1, char **s2, int i1, int lgth2 )
 		*match++ = amino_dis[(int)tmpc][(int)*seq2++];
 }
 
-static float Atracking( float *lasthorizontalw, float *lastverticalw, 
+static float MSAtracking( float *lasthorizontalw, float *lastverticalw, 
 						char **seq1, char **seq2, 
                         char **mseq1, char **mseq2, 
                         float **cpmx1, float **cpmx2, 
@@ -135,8 +135,8 @@ void backdp( float **WMMTX, float wmmax, float *maxinw, float *maxinh, int lgth1
 	currentw = w1;
 	previousw = w2;
 
-	match_calc( initverticalw, seq2, seq1, lgth2-1, lgth1 );
-	match_calc( currentw, seq1, seq2, lgth1-1, lgth2 );
+	match_calc_ms( initverticalw, seq2, seq1, lgth2-1, lgth1 );
+	match_calc_ms( currentw, seq1, seq2, lgth1-1, lgth2 );
 
 
 	prevhiti = iin;
@@ -185,7 +185,7 @@ void backdp( float **WMMTX, float wmmax, float *maxinw, float *maxinh, int lgth1
 
 		previousw[lgth2-1] = initverticalw[i+1];
 
-		match_calc( currentw, seq1, seq2, i, lgth2 );
+		match_calc_ms( currentw, seq1, seq2, i, lgth2 );
 
 #if 0
 		fprintf( stderr, "i=%d, currentw = \n", i );
@@ -434,10 +434,10 @@ float MSalign11( char **seq1, char **seq2, int alloclen )
 	currentw = w1;
 	previousw = w2;
 
-	match_calc( initverticalw, seq2, seq1, 0, lgth1 );
+	match_calc_ms( initverticalw, seq2, seq1, 0, lgth1 );
 
 
-	match_calc( currentw, seq1, seq2, 0, lgth2 );
+	match_calc_ms( currentw, seq1, seq2, 0, lgth2 );
 
 	WMMTX[0][0] = initverticalw[0];
 
@@ -473,7 +473,7 @@ float MSalign11( char **seq1, char **seq2, int alloclen )
 
 		previousw[0] = initverticalw[i-1];
 
-		match_calc( currentw, seq1, seq2, i, lgth2 );
+		match_calc_ms( currentw, seq1, seq2, i, lgth2 );
 
 		currentw[0] = initverticalw[i];
 
@@ -636,7 +636,7 @@ float MSalign11( char **seq1, char **seq2, int alloclen )
 	mseq2[0] += lgth1+lgth2;
 	*mseq2[0] = 0;
 
-	Atracking( currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp );
+	MSAtracking( currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp );
 
 
 	resultlen = strlen( mseq1[0] );

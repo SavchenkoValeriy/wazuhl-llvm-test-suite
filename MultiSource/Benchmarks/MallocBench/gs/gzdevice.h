@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GZDEVICE_H
+#define GZDEVICE_H
+
 /* gzdevice.h */
 /* Private structures for describing devices for GhostScript */
 /* requires gsmatrix.h */
@@ -29,3 +32,6 @@ typedef struct device_s {
 	int is_band_device;		/* if true, must render in pieces */
 	gx_color_index white, black;	/* device color codes */
 } device;
+
+
+#endif /* GZDEVICE_H */

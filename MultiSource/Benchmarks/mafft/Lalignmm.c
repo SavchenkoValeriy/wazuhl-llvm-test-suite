@@ -91,7 +91,7 @@ static void match_ribosum( float *match, float **cpmx1, float **cpmx2, int i1, i
 #endif
 }
 
-static void match_calc( float *match, float **cpmx1, float **cpmx2, int i1, int lgth2, float **floatwork, int **intwork, int initialize )
+static void match_calc_lanm( float *match, float **cpmx1, float **cpmx2, int i1, int lgth2, float **floatwork, int **intwork, int initialize )
 {
 	int j, k, l;
 	float scarr[26];
@@ -789,7 +789,7 @@ static float MSalign2m2m_rec( int icyc, int jcyc, double *eff1, double *eff2, ch
 		previousw = currentw;
 		currentw = wtmp;
 		previousw[lgth2-1] = initverticalw[i+1];
-//		match_calc( currentw, seq1, seq2, i, lgth2 );
+//		match_calc_lanm( currentw, seq1, seq2, i, lgth2 );
 		match_ribosum( currentw, cpmx1+ist, cpmx2+jst, i, lgth2, floatwork, intwork, 0 );
 
 		currentw[lgth2-1] = initverticalw[i];
@@ -1436,9 +1436,9 @@ static float MSalignmm_rec( int icyc, int jcyc, double *eff1, double *eff2, char
 	currentw = w1;
 	previousw = w2;
 
-	match_calc( initverticalw, cpmx2+jst, cpmx1+ist, 0, lgth1, floatwork, intwork, 1 );
+	match_calc_lanm( initverticalw, cpmx2+jst, cpmx1+ist, 0, lgth1, floatwork, intwork, 1 );
 
-	match_calc( currentw, cpmx1+ist, cpmx2+jst, 0, lgth2, floatwork, intwork, 1 );
+	match_calc_lanm( currentw, cpmx1+ist, cpmx2+jst, 0, lgth2, floatwork, intwork, 1 );
 
 	for( i=1; i<lgth1+1; i++ )
 	{
@@ -1487,7 +1487,7 @@ static float MSalignmm_rec( int icyc, int jcyc, double *eff1, double *eff2, char
 
 		previousw[0] = initverticalw[i-1];
 
-		match_calc( currentw, cpmx1+ist, cpmx2+jst, i, lgth2, floatwork, intwork, 0 );
+		match_calc_lanm( currentw, cpmx1+ist, cpmx2+jst, i, lgth2, floatwork, intwork, 0 );
 		currentw[0] = initverticalw[i];
 
 		m[0] = ogcp1[i];
@@ -1638,8 +1638,8 @@ static float MSalignmm_rec( int icyc, int jcyc, double *eff1, double *eff2, char
 
 // gyakudp
 
-	match_calc( initverticalw, cpmx2+jst, cpmx1+ist, lgth2-1, lgth1, floatwork, intwork, 1 );
-	match_calc( currentw, cpmx1+ist, cpmx2+jst, lgth1-1, lgth2, floatwork, intwork, 1 );
+	match_calc_lanm( initverticalw, cpmx2+jst, cpmx1+ist, lgth2-1, lgth1, floatwork, intwork, 1 );
+	match_calc_lanm( currentw, cpmx1+ist, cpmx2+jst, lgth1-1, lgth2, floatwork, intwork, 1 );
 
 	for( i=0; i<lgth1-1; i++ )
 	{
@@ -1690,8 +1690,8 @@ static float MSalignmm_rec( int icyc, int jcyc, double *eff1, double *eff2, char
 		previousw = currentw;
 		currentw = wtmp;
 		previousw[lgth2-1] = initverticalw[i+1];
-//		match_calc( currentw, seq1, seq2, i, lgth2 );
-		match_calc( currentw, cpmx1+ist, cpmx2+jst, i, lgth2, floatwork, intwork, 0 );
+//		match_calc_lanm( currentw, seq1, seq2, i, lgth2 );
+		match_calc_lanm( currentw, cpmx1+ist, cpmx2+jst, i, lgth2, floatwork, intwork, 0 );
 
 		currentw[lgth2-1] = initverticalw[i];
 

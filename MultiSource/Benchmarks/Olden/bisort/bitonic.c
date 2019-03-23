@@ -12,7 +12,7 @@
 
 int NumNodes, NDim;
 
-int random(int);
+int urandom(int);
 
 int flag=0,foo=0;
 
@@ -47,13 +47,13 @@ int mult(int p, int q) {
   return ((p0*q1+p1*q0) % CONST_m1)*CONST_m1+p0*q0;
 }
 
-/* Generate the nth random # */
+/* Generate the nth urandom # */
 int skiprand(int seed, int n) {
-  for (; n; n--) seed=random(seed);
+  for (; n; n--) seed=urandom(seed);
   return seed;
 }
 
-int random(int seed) {
+int urandom(int seed) {
   return mult(seed,CONST_b)+1;
 }
 
@@ -68,7 +68,7 @@ HANDLE* RandTree(int n, int seed, int node, int level) {
       newnode = node + (1 <<  (NDim-level-1));
     else
       newnode = node;
-    seed = random(seed);
+    seed = urandom(seed);
     next_val=seed % RANGE;
     NewNode(h,next_val,node);
     f_left.value = RandTree((n/2),seed,newnode,level+1);
@@ -246,7 +246,7 @@ int main(int argc, char **argv) {
   printf("Bisort with %d size of dim %d\n", n, NDim);
 
   h = RandTree(n,12345768,0,0);
-  sval = random(245867) % RANGE;
+  sval = urandom(245867) % RANGE;
   if (flag) {
     InOrder(h);
     printf("%d\n",sval);

@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GZSTATE_H
+#define GZSTATE_H
+
 /* gzstate.h */
 /* Private graphics state definition for GhostScript library */
 /* Requires gxmatrix.h and gxfixed.h */
@@ -64,3 +67,6 @@ struct gs_state_s {
 	int device_is_shared;		/* true if device is shared, */
 					/* so don't deallocate at grestore */
 };
+
+
+#endif /* GZSTATE_H */

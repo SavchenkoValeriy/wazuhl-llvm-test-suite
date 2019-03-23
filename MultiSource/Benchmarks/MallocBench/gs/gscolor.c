@@ -137,12 +137,12 @@ gs_colorrgb(gs_color *pcolor, float pr3[3])
 int
 gs_setscreen(gs_state *pgs,
   floatp freq, floatp angle, float (*proc)(P2(floatp, floatp)))
-{	gs_screen_enum senum;
+{	gs_screen_enum gs_senum;
 	gs_point pt;
-	int code = gs_screen_init(&senum, pgs, freq, angle);
+	int code = gs_screen_init(&gs_senum, pgs, freq, angle);
 	if ( code < 0 ) return code;
-	while ( (code = gs_screen_currentpoint(&senum, &pt)) == 0 )
-		if ( (code = gs_screen_next(&senum, (*proc)(pt.x, pt.y))) < 0 )
+	while ( (code = gs_screen_currentpoint(&gs_senum, &pt)) == 0 )
+		if ( (code = gs_screen_next(&gs_senum, (*proc)(pt.x, pt.y))) < 0 )
 			return code;
 	if ( code < 0 ) return code;
 	pgs->ht_proc = proc;

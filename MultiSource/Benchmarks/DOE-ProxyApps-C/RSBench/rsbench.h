@@ -1,3 +1,6 @@
+#ifndef RSBENCH_H
+#define RSBENCH_H
+
 #include<stdio.h>
 #ifdef OPENMP
 #include<omp.h>
@@ -103,3 +106,6 @@ void calculate_sig_T( int nuc, double E, Input input, CalcDataPtrs data, complex
 // papi.c
 void counter_init( int *eventset, int *num_papi_events );
 void counter_stop( int * eventset, int num_papi_events );
+
+
+#endif /* RSBENCH_H */

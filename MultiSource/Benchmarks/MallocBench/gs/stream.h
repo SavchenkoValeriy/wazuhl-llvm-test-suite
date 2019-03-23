@@ -26,6 +26,10 @@ copies.  */
 /* A stream can only be read or written, not both. */
 /* Note also that the read procedure returns an int, */
 /* not a char or a byte, because EOFC is -1. */
+
+#ifndef STREAM_H
+#define STREAM_H
+
 typedef struct stream_s stream;
 typedef struct {
 	int (*read)(P1(stream *));
@@ -113,3 +117,6 @@ extern	void	sread_string(P3(stream *, byte *, uint)),
 extern	void	sread_file(P4(stream *, FILE *, byte *, uint)),
 		swrite_file(P4(stream *, FILE *, byte *, uint));
 extern	void	sread_decrypt(P5(stream *, stream *, byte *, uint, ushort));
+
+
+#endif /* STREAM_H */

@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GXFDIR_H
+#define GXFDIR_H
+
 /* gxfdir.h */
 /* Font directory (font/character cache manager) definitions */
 /* Requires gsfont.h. */
@@ -48,3 +51,6 @@ struct gs_font_dir_s {
 	uint cnext;			/* rover for allocating cached_chars */
 };
 
+
+
+#endif /* GXFDIR_H */

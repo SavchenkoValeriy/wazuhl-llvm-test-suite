@@ -180,7 +180,7 @@ static void imp_match_out_vead_tateH( float *imp, int j1, int lgth1 )
 void imp_match_init_strictH( float *imp, int clus1, int clus2, int lgth1, int lgth2, char **seq1, char **seq2, double *eff1, double *eff2, LocalHom ***localhom, int forscore )
 {
 	int i, j, k1, k2, tmpint, start1, start2, end1, end2;
-	static int impalloclen = 0;
+	static int hanm_impalloclen = 0;
 	float effij;
 	double effijx;
 	char *pt, *pt1, *pt2;
@@ -188,15 +188,15 @@ void imp_match_init_strictH( float *imp, int clus1, int clus2, int lgth1, int lg
 	static char *nocount2 = NULL;
 	LocalHom *tmpptr;
 
-	if( impalloclen < lgth1 + 2 || impalloclen < lgth2 + 2 )
+	if( hanm_impalloclen < lgth1 + 2 || hanm_impalloclen < lgth2 + 2 )
 	{
 		if( impmtx ) FreeFloatMtx( impmtx );
 		if( nocount1 ) free( nocount1 );
 		if( nocount2 ) free( nocount2 );
-		impalloclen = MAX( lgth1, lgth2 ) + 2;
-		impmtx = AllocateFloatMtx( impalloclen, impalloclen );
-		nocount1 = AllocateCharVec( impalloclen );
-		nocount2 = AllocateCharVec( impalloclen );
+		hanm_impalloclen = MAX( lgth1, lgth2 ) + 2;
+		impmtx = AllocateFloatMtx( hanm_impalloclen, hanm_impalloclen );
+		nocount1 = AllocateCharVec( hanm_impalloclen );
+		nocount2 = AllocateCharVec( hanm_impalloclen );
 	}
 
 	for( i=0; i<lgth1; i++ )
@@ -216,7 +216,7 @@ void imp_match_init_strictH( float *imp, int clus1, int clus2, int lgth1, int lg
 
 #if 0
 fprintf( stderr, "nocount2 =\n" );
-for( i = 0; i<impalloclen; i++ )
+for( i = 0; i<hanm_impalloclen; i++ )
 {
 	fprintf( stderr, "nocount2[%d] = %d (%c)\n", i, nocount2[i], seq2[0][i] );
 }
@@ -390,7 +390,7 @@ for( i = 0; i<impalloclen; i++ )
 #endif
 
 
-static void match_calc( float *match, float **cpmx1, float **cpmx2, int i1, int lgth2, float **floatwork, int **intwork, int initialize )
+static void match_calc_hanm( float *match, float **cpmx1, float **cpmx2, int i1, int lgth2, float **floatwork, int **intwork, int initialize )
 {
 #if FASTMATCHCALC
 	int j, l;
@@ -477,7 +477,7 @@ static void match_calc( float *match, float **cpmx1, float **cpmx2, int i1, int 
 #endif
 }
 
-static void Atracking_localhom( float *impwmpt, float *lasthorizontalw, float *lastverticalw, 
+static void HAtracking_localhom( float *impwmpt, float *lasthorizontalw, float *lastverticalw, 
 						char **seq1, char **seq2, 
                         char **mseq1, char **mseq2, 
                         float **cpmx1, float **cpmx2, 
@@ -590,7 +590,7 @@ static void Atracking_localhom( float *impwmpt, float *lasthorizontalw, float *l
 	free( gt2bk );
 }
 
-static float Atracking( float *lasthorizontalw, float *lastverticalw, 
+static float HAtracking( float *lasthorizontalw, float *lastverticalw, 
 						char **seq1, char **seq2, 
                         char **mseq1, char **mseq2, 
                         float **cpmx1, float **cpmx2, 
@@ -978,18 +978,18 @@ float H__align( char **seq1, char **seq2, double *eff1, double *eff2, int icyc, 
 	currentw = w1;
 	previousw = w2;
 
-	match_calc( initverticalw, cpmx2, cpmx1, 0, lgth1, floatwork, intwork, 1 );
+	match_calc_hanm( initverticalw, cpmx2, cpmx1, 0, lgth1, floatwork, intwork, 1 );
 	if( localhom )
 		imp_match_out_vead_tateH( initverticalw, 0, lgth1 ); // 060306
 
-	match_calc( currentw, cpmx1, cpmx2, 0, lgth2, floatwork, intwork, 1 );
+	match_calc_hanm( currentw, cpmx1, cpmx2, 0, lgth2, floatwork, intwork, 1 );
 	if( localhom )
 		imp_match_out_veadH( currentw, 0, lgth2 ); // 060306
 
 
 #if 0 // -> tbfast.c
 	if( localhom )
-		imp_match_calc( currentw, icyc, jcyc, lgth1, lgth2, seq1, seq2, eff1, eff2, localhom, 1, 0 );
+		imp_match_calc_hanm( currentw, icyc, jcyc, lgth1, lgth2, seq1, seq2, eff1, eff2, localhom, 1, 0 );
 
 #endif
 
@@ -1126,7 +1126,7 @@ for( i=0; i<lgth2; i++ )
 
 		previousw[0] = initverticalw[i-1];
 
-		match_calc( currentw, cpmx1, cpmx2, i, lgth2, floatwork, intwork, 0 );
+		match_calc_hanm( currentw, cpmx1, cpmx2, i, lgth2, floatwork, intwork, 0 );
 #if XXXXXXX
 fprintf( stderr, "\n" );
 fprintf( stderr, "i=%d\n", i );
@@ -1139,7 +1139,7 @@ fprintf( stderr, "\n" );
 #endif
 		if( localhom )
 		{
-//			fprintf( stderr, "Calling imp_match_calc (o) lgth = %d, i = %d\n", lgth1, i );
+//			fprintf( stderr, "Calling imp_match_calc_hanm (o) lgth = %d, i = %d\n", lgth1, i );
 #if  0
 			imp_match_out_veadH( currentw, i, lgth2 );
 #else
@@ -1377,10 +1377,10 @@ fprintf( stderr, "\n" );
 	*/
 	if( localhom )
 	{
-		Atracking_localhom( impmatch, currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
+		HAtracking_localhom( impmatch, currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
 	}
 	else
-		Atracking( currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
+		HAtracking( currentw, lastverticalw, seq1, seq2, mseq1, mseq2, cpmx1, cpmx2, ijp, icyc, jcyc );
 
 //	fprintf( stderr, "### impmatch = %f\n", *impmatch );
 

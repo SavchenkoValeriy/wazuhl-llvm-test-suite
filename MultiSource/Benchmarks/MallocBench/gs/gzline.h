@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GZLINE_H
+#define GZLINE_H
+
 /* gxline.h */
 /* Private line parameters for GhostScript */
 /* Requires gsstate.h */
@@ -41,3 +44,6 @@ typedef struct line_params_s {
 					/* gs_stroke */
 	dash_params dash;
 } line_params;
+
+
+#endif /* GZLINE_H */

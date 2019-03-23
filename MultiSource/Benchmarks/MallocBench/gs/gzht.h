@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GZHT_H
+#define GZHT_H
+
 /* gzht.h */
 /* Private halftone representation for GhostScript */
 
@@ -56,3 +59,6 @@ struct gs_screen_enum_s {
 	int x, y;
 	gs_state *pgs;
 };
+
+
+#endif /* GZHT_H */

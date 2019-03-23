@@ -18,32 +18,32 @@
 
 /* slow version */
 
-static void initminB(char_t *res)
+static void initminBC(char_t *res)
 {
   setac(0);
   *res=255;
 }
 
-static void initmaxB(char_t *res)
+static void initmaxBC(char_t *res)
 {
   setac(0);
   *res=0;
 }
 
-static void initaddB(char_t *res)
+static void initaddBC(char_t *res)
 {
   setac(0);
   *res=0;
 }
 
-static void initmultB(char_t *res)
+static void initmultBC(char_t *res)
 {
   setac(0);
   *res=1;
 }
 
 
-static void stepminB(char_t *res)
+static void stepminBC(char_t *res)
 /* {{{  */
 
 {
@@ -57,7 +57,7 @@ static void stepminB(char_t *res)
 
 /* }}} */
 
-static void stepmaxB(char_t *res)
+static void stepmaxBC(char_t *res)
 /* {{{  */
 {
   register char_t t;
@@ -69,7 +69,7 @@ static void stepmaxB(char_t *res)
 }
 /* }}} */
 
-static void stepaddB(char_t *res)
+static void stepaddBC(char_t *res)
 /* {{{  */
 {
   register char_t t;
@@ -81,7 +81,7 @@ static void stepaddB(char_t *res)
 }
 /* }}} */
 
-static void stepmultB(char_t *res)
+static void stepmultBC(char_t *res)
 /* {{{  */
 
 {
@@ -102,13 +102,13 @@ void testC()
 
   initarray();
 
-  loop((void (*)(void *))&initminB,(void (*)(void *))&stepminB,&(res.min));
+  loop((void (*)(void *))&initminBC,(void (*)(void *))&stepminBC,&(res.min));
 
-  loop((void (*)(void *))&initmaxB,(void (*)(void *))&stepmaxB,&(res.max));
+  loop((void (*)(void *))&initmaxBC,(void (*)(void *))&stepmaxBC,&(res.max));
 
-  loop((void (*)(void *))&initaddB,(void (*)(void *))&stepaddB,&(res.add));
+  loop((void (*)(void *))&initaddBC,(void (*)(void *))&stepaddBC,&(res.add));
 
-  loop((void (*)(void *))&initmultB,(void (*)(void *))&stepmultB,&(res.mult));
+  loop((void (*)(void *))&initmultBC,(void (*)(void *))&stepmultBC,&(res.mult));
 
   printf("C %d min %d max %d add %d mult \n",res.min,res.max,res.add,res.mult);
 

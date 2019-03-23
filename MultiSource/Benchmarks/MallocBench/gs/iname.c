@@ -50,6 +50,9 @@ private int name_alloc_sub(P1(name_table *));
 /* Make a t_name ref out of a name * */
 #define make_name(pref, pnm) make_tv(pref, t_name, pname, pnm)
 
+uint
+string_hash(byte *ptr, uint len);
+
 /* Initialize the name table */
 void
 name_init()

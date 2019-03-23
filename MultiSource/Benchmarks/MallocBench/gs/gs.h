@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GS_H
+#define GS_H
+
 /* gs.h */
 /* Common definitions for GhostScript library */
 #include <stdio.h>
@@ -54,3 +57,6 @@ typedef struct {
 /* to the types proc_alloc_t and proc_free_t: */
 char *gs_malloc(P3(uint, uint, char *));
 void gs_free(P4(char *, uint, uint, char *));
+
+
+#endif /* GS_H */

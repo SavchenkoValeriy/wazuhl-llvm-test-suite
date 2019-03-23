@@ -2,6 +2,9 @@
 
 /* =============== NODE STRUCTURE =================== */
 
+#ifndef NODE_H
+#define NODE_H
+
 struct node { 
   int value;
   struct node *left;
@@ -14,6 +17,8 @@ typedef struct future_cell_int{
   HANDLE *value;
 } future_cell_int;
 
-extern void *malloc(unsigned);
 
 #define NIL ((HANDLE *) 0)
+
+
+#endif /* NODE_H */

@@ -155,6 +155,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TEST_SUITE_EXTRA_CXX_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS
     "${CMAKE_EXE_LINKER_FLAGS} ${TEST_SUITE_EXTRA_EXE_LINKER_FLAGS}")
 
+include(cotire)
 include(TestSuite)
 include(SingleMultiSource)
 find_package(TCL)

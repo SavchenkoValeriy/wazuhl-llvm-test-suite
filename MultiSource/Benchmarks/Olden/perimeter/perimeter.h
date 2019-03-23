@@ -1,4 +1,9 @@
 /* For copyright information, see olden_v1.0/COPYRIGHT */
+
+#ifndef PERIMETER_H
+#define PERIMETER_H
+
+
 #ifdef TORONTO
 extern int NumNodes;
 #define chatting      printf
@@ -52,3 +57,6 @@ QuadTree MakeTree(int size, int center_x, int center_y, int lo_proc,
 
 
 
+
+
+#endif /* PERIMETER_H */

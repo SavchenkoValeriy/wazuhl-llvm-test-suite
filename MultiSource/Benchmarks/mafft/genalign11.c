@@ -9,7 +9,7 @@
 static int localstop;
 
 #if 1
-static void match_calc( float *match, char **s1, char **s2, int i1, int lgth2 ) 
+static void match_calc_gena( float *match, char **s1, char **s2, int i1, int lgth2 ) 
 {
 	char tmpc = s1[0][i1];
 	char *seq2 = s2[0];
@@ -18,7 +18,7 @@ static void match_calc( float *match, char **s1, char **s2, int i1, int lgth2 )
 		*match++ = amino_dis[(int)tmpc][(int)*seq2++];
 }
 #else
-static void match_calc( float *match, char **s1, char **s2, int i1, int lgth2 )
+static void match_calc_gena( float *match, char **s1, char **s2, int i1, int lgth2 )
 {
 	int j;
 
@@ -28,7 +28,7 @@ static void match_calc( float *match, char **s1, char **s2, int i1, int lgth2 )
 #endif
 
 #if 0
-static void match_calc_bk( float *match, float **cpmx1, float **cpmx2, int i1, int lgth2, float **floatwork, int **intwork, int initialize )
+static void match_calc_gena_bk( float *match, float **cpmx1, float **cpmx2, int i1, int lgth2, float **floatwork, int **intwork, int initialize )
 {
 	int j, k, l;
 	float scarr[26];
@@ -336,9 +336,9 @@ float genL__align11( char **seq1, char **seq2, int alloclen, int *off1pt, int *o
 	currentw = w1;
 	previousw = w2;
 
-	match_calc( initverticalw, seq2, seq1, 0, lgth1 );
+	match_calc_gena( initverticalw, seq2, seq1, 0, lgth1 );
 
-	match_calc( currentw, seq1, seq2, 0, lgth2 );
+	match_calc_gena( currentw, seq1, seq2, 0, lgth2 );
 
 
 	lasti = lgth2+1;
@@ -394,7 +394,7 @@ fprintf( stderr, "\n" );
 
 		previousw[0] = initverticalw[i-1];
 
-		match_calc( currentw, seq1, seq2, i, lgth2 );
+		match_calc_gena( currentw, seq1, seq2, i, lgth2 );
 #if DEBUG2
 		fprintf( stderr, "%c   ", seq1[0][i] );
 		fprintf( stderr, "%5.0f ", currentw[0] );

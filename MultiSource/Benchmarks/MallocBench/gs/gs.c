@@ -26,6 +26,20 @@ copies.  */
 #include "store.h"
 #include "stream.h"
 
+void gs_exit(int code);
+void debug_dump_refs(ref *from, ref *to, char *msg);
+void initial_enter_name(char *nstr, ref *pref);
+void op_init();
+void obj_init();
+void name_init();
+void interp_init(int ndict);
+void scan_init();
+void zfile_init();
+void zfont_init();
+void zmath_init();
+void gs_init();
+void zmatrix_init();
+
 /* Library routines not declared in a standard header */
 extern char *getenv(P1(const char *));
 

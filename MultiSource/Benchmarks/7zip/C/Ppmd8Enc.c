@@ -9,14 +9,14 @@ This code is based on:
 #define kTop (1 << 24)
 #define kBot (1 << 15)
 
-void Ppmd8_RangeEnc_FlushData(CPpmd8 *p)
+void Ppmd8_RangeEnc8_FlushData(CPpmd8 *p)
 {
   unsigned i;
   for (i = 0; i < 4; i++, p->Low <<= 8 )
     p->Stream.Out->Write(p->Stream.Out, (Byte)(p->Low >> 24));
 }
 
-static void RangeEnc_Normalize(CPpmd8 *p)
+static void RangeEnc8_Normalize(CPpmd8 *p)
 {
   while ((p->Low ^ (p->Low + p->Range)) < kTop ||
       (p->Range < kBot && ((p->Range = (0 - p->Low) & (kBot - 1)), 1)))
@@ -27,25 +27,25 @@ static void RangeEnc_Normalize(CPpmd8 *p)
   }
 }
 
-static void RangeEnc_Encode(CPpmd8 *p, UInt32 start, UInt32 size, UInt32 total)
+static void RangeEnc8_Encode(CPpmd8 *p, UInt32 start, UInt32 size, UInt32 total)
 {
   p->Low += start * (p->Range /= total);
   p->Range *= size;
-  RangeEnc_Normalize(p);
+  RangeEnc8_Normalize(p);
 }
 
-static void RangeEnc_EncodeBit_0(CPpmd8 *p, UInt32 size0)
+static void RangeEnc8_EncodeBit_0(CPpmd8 *p, UInt32 size0)
 {
   p->Range >>= 14;
   p->Range *= size0;
-  RangeEnc_Normalize(p);
+  RangeEnc8_Normalize(p);
 }
 
-static void RangeEnc_EncodeBit_1(CPpmd8 *p, UInt32 size0)
+static void RangeEnc8_EncodeBit_1(CPpmd8 *p, UInt32 size0)
 {
   p->Low += size0 * (p->Range >>= 14);
   p->Range *= ((1 << 14) - size0);
-  RangeEnc_Normalize(p);
+  RangeEnc8_Normalize(p);
 }
 
 
@@ -61,7 +61,7 @@ void Ppmd8_EncodeSymbol(CPpmd8 *p, int symbol)
     unsigned i;
     if (s->Symbol == symbol)
     {
-      RangeEnc_Encode(p, 0, s->Freq, p->MinContext->SummFreq);
+      RangeEnc8_Encode(p, 0, s->Freq, p->MinContext->SummFreq);
       p->FoundState = s;
       Ppmd8_Update1_0(p);
       return;
@@ -73,7 +73,7 @@ void Ppmd8_EncodeSymbol(CPpmd8 *p, int symbol)
     {
       if ((++s)->Symbol == symbol)
       {
-        RangeEnc_Encode(p, sum, s->Freq, p->MinContext->SummFreq);
+        RangeEnc8_Encode(p, sum, s->Freq, p->MinContext->SummFreq);
         p->FoundState = s;
         Ppmd8_Update1(p);
         return;
@@ -86,7 +86,7 @@ void Ppmd8_EncodeSymbol(CPpmd8 *p, int symbol)
     MASK(s->Symbol) = 0;
     i = p->MinContext->NumStats;
     do { MASK((--s)->Symbol) = 0; } while (--i);
-    RangeEnc_Encode(p, sum, p->MinContext->SummFreq - sum, p->MinContext->SummFreq);
+    RangeEnc8_Encode(p, sum, p->MinContext->SummFreq - sum, p->MinContext->SummFreq);
   }
   else
   {
@@ -94,7 +94,7 @@ void Ppmd8_EncodeSymbol(CPpmd8 *p, int symbol)
     CPpmd_State *s = Ppmd8Context_OneState(p->MinContext);
     if (s->Symbol == symbol)
     {
-      RangeEnc_EncodeBit_0(p, *prob);
+      RangeEnc8_EncodeBit_0(p, *prob);
       *prob = (UInt16)PPMD_UPDATE_PROB_0(*prob);
       p->FoundState = s;
       Ppmd8_UpdateBin(p);
@@ -102,7 +102,7 @@ void Ppmd8_EncodeSymbol(CPpmd8 *p, int symbol)
     }
     else
     {
-      RangeEnc_EncodeBit_1(p, *prob);
+      RangeEnc8_EncodeBit_1(p, *prob);
       *prob = (UInt16)PPMD_UPDATE_PROB_1(*prob);
       p->InitEsc = PPMD8_kExpEscape[*prob >> 10];
       PPMD_SetAllBitsIn256Bytes(charMask);
@@ -143,7 +143,7 @@ void Ppmd8_EncodeSymbol(CPpmd8 *p, int symbol)
           s++;
         }
         while (--i);
-        RangeEnc_Encode(p, low, s1->Freq, sum + escFreq);
+        RangeEnc8_Encode(p, low, s1->Freq, sum + escFreq);
         Ppmd_See_Update(see);
         p->FoundState = s1;
         Ppmd8_Update2(p);
@@ -155,7 +155,7 @@ void Ppmd8_EncodeSymbol(CPpmd8 *p, int symbol)
     }
     while (--i);
     
-    RangeEnc_Encode(p, sum, escFreq, sum + escFreq);
+    RangeEnc8_Encode(p, sum, escFreq, sum + escFreq);
     see->Summ = (UInt16)(see->Summ + sum + escFreq);
   }
 }

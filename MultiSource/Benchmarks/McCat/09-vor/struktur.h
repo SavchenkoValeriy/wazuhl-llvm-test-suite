@@ -1,3 +1,6 @@
+#ifndef STRUKTUR_H
+#define STRUKTUR_H
+
 typedef struct point{
   int x,y;
 } point;
@@ -55,3 +58,6 @@ typedef struct CHsplay_node {
   CHsplay_element element;
   struct CHsplay_node *father, *left, *right;
 } CHsplay_node;
+
+
+#endif /* STRUKTUR_H */

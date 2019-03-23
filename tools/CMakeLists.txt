@@ -8,6 +8,7 @@
 include(Host)
 
 add_executable(fpcmp fpcmp.c)
+set_target_properties(fpcmp PROPERTIES COMPILE_FLAGS "-O2")
 
 add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/HashProgramOutput.sh
@@ -32,6 +33,7 @@ if(TEST_SUITE_USE_PERF)
   add_custom_target(build-timeit-target DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/timeit-target)
 else()
   add_executable(timeit-target ${CMAKE_CURRENT_SOURCE_DIR}/timeit.c)
+  set_target_properties(timeit-target PROPERTIES COMPILE_FLAGS "-O2")
   add_executable(build-timeit-target ALIAS timeit-target)
   llvm_add_host_executable(build-timeit timeit timeit.c)
 endif()

@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GXFONT1_H
+#define GXFONT1_H
+
 /* gxfont1.h */
 /* Type 1 font information for GhostScript library. */
 
@@ -31,3 +34,6 @@ struct gs_type1_data_s {
 	char *proc_data;		/* data for subr_proc */
 	int lenIV;			/* # of leading garbage bytes */
 };
+
+
+#endif /* GXFONT1_H */

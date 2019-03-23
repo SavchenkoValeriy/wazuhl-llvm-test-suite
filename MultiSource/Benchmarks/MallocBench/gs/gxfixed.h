@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GXFIXED_H
+#define GXFIXED_H
+
 /* gxfixed.h */
 /* Fixed-point arithmetic for GhostScript */
 
@@ -95,3 +98,6 @@ typedef struct gs_fixed_point_s {
 typedef struct gs_fixed_rect_s {
 	gs_fixed_point p, q;
 } gs_fixed_rect;
+
+
+#endif /* GXFIXED_H */

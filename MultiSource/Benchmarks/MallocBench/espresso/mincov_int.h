@@ -1,3 +1,6 @@
+#ifndef MINCOV_INT_H
+#define MINCOV_INT_H
+
 #include "port.h"
 #include "utility.h"
 #include "sparse.h"
@@ -42,3 +45,6 @@ extern int gimpel_reduce();
 
 
 #define WEIGHT(weight, col)	(weight == NIL(int) ? 1 : weight[col])
+
+
+#endif /* MINCOV_INT_H */

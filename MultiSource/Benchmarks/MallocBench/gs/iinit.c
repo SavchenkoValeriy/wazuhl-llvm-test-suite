@@ -34,6 +34,8 @@ extern ref dstack[];
 /* Error names */
 ref name_ErrorNames;
 
+void interp_fix_op(ref *opref);
+
 /* Enter a name and value into systemdict */
 void
 initial_enter_name(char *nstr, ref *pref)

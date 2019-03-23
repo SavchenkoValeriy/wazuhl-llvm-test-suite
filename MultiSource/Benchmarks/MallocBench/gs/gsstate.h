@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GSSTATE_H
+#define GSSTATE_H
+
 /* gsstate.h */
 /* Graphics state routines for GhostScript library */
 
@@ -97,3 +100,6 @@ extern int gs_screen_enum_sizeof;
 int	gs_screen_init(P4(gs_screen_enum *, gs_state *, floatp, floatp));
 int	gs_screen_currentpoint(P2(gs_screen_enum *, gs_point *));
 int	gs_screen_next(P2(gs_screen_enum *, floatp));
+
+
+#endif /* GSSTATE_H */

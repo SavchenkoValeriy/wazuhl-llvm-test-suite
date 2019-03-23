@@ -34,9 +34,6 @@ copies.  */
 extern ref dstack[];
 extern ref *dsp;
 
-/* Import the C getenv function */
-extern char *getenv(P1(char *));
-
 /* Import from iutil.c */
 extern char *ref_to_string(P2(ref *, char *));
 

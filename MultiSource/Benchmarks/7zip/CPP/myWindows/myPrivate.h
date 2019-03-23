@@ -1,3 +1,5 @@
+#ifndef MYPRIVATE_H
+#define MYPRIVATE_H
 
 void WINAPI RtlSecondsSince1970ToFileTime( DWORD Seconds, FILETIME * ft );
 
@@ -15,3 +17,6 @@ static inline const char * nameWindowToUnix(const char * lpFileName) {
 }
 #endif
 
+
+
+#endif /* MYPRIVATE_H */

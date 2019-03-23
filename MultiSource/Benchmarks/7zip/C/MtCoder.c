@@ -53,11 +53,6 @@ WRes LoopThread_StopAndWait(CLoopThread *p)
 WRes LoopThread_StartSubThread(CLoopThread *p) { return Event_Set(&p->startEvent); }
 WRes LoopThread_WaitSubThread(CLoopThread *p) { return Event_Wait(&p->finishedEvent); }
 
-static SRes Progress(ICompressProgress *p, UInt64 inSize, UInt64 outSize)
-{
-  return (p && p->Progress(p, inSize, outSize) != SZ_OK) ? SZ_ERROR_PROGRESS : SZ_OK;
-}
-
 static void MtProgress_Init(CMtProgress *p, ICompressProgress *progress)
 {
   unsigned i;

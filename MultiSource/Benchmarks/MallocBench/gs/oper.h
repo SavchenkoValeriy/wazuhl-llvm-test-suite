@@ -37,6 +37,10 @@ zxxx_init()
 /* This definition always appears at the END of the file, */
 /* to avoid the necessity for forward declarations for all the */
 /* operator procedures. */
+
+#ifndef OPER_H
+#define OPER_H
+
 typedef struct {
 	char *name;
 	op_proc_p proc;
@@ -103,3 +107,6 @@ extern ref *osp_nargs[os_max_nargs];
 /* If an operator may have popped or pushed something on the control stack, */
 /* it must return o_check_estack rather than 0 to indicate success. */
 #define o_check_estack 1
+
+
+#endif /* OPER_H */

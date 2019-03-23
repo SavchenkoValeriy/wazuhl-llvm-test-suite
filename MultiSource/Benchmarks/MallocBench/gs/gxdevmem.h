@@ -17,6 +17,9 @@ responsibilities.  It should be in a file named COPYING.  Among other
 things, the copyright notice and this notice must be preserved on all
 copies.  */
 
+#ifndef GXDEVMEM_H
+#define GXDEVMEM_H
+
 /* gxdevmem.h */
 /* "Memory" device structure for GhostScript library */
 /* Requires gxdevice.h */
@@ -86,3 +89,6 @@ extern int mem_bytes_per_scan_line(P1(gx_device_memory *));
  * to allocate the bitmap consecutively, i.e., in the form that
  * can serve as input to copy_mono or copy_color operations.
  */
+
+
+#endif /* GXDEVMEM_H */
